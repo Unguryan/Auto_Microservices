@@ -5,7 +5,6 @@ option csharp_namespace = "Interfaces.Services.Protos";
 //package greet;
 
 service UserGRPCService {
-  rpc AddUser (AddUserRequest) returns (UserModel);
   rpc AuthUser (AuthUserRequest) returns (UserModel);
   rpc RegUser (RegUserRequest) returns (UserModel);
   rpc GetUserById (GetUserByIdRequest) returns (UserModel);
@@ -29,11 +28,6 @@ message UserModel{
 	int32 Id = 1;
 	string Name = 2;
 	string Phone = 3;
-}
-
-message AddUserRequest {
-	string Name = 1;
-	string Phone = 2;
 }
 
 message GetUserByIdRequest {
