@@ -3,6 +3,9 @@ using Interfaces.Models;
 using Interfaces.Services;
 using Interfaces.Services.Protos;
 using Microsoft.Extensions.Logging;
+using Order_GrpcService.Models;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Order_GrpcService.Services
@@ -24,6 +27,34 @@ namespace Order_GrpcService.Services
 
         public override async Task<OrderModel> AddOrder(AddOrderRequest request, ServerCallContext context)
         {
+            var completedWork = new Dictionary<int, int>();
+            foreach (var item in request.CompletedWork)
+            {
+                completedWork.Add(item.Key, item.Value);
+            }
+            var model = new Order(request.Name, request.IdStation, request.IdUser, DateTime.Parse(request.CreatedAt), DateTime.MinValue,  completedWork);
+            var temp = await _context.Add(model);
+
+            if (temp == null)
+            {
+                return null;
+            }
+
+            var res = new OrderModel()
+            {
+                Id = temp.Id;
+                Name = temp.Name;
+                IdStation = temp.IdStation;
+                IdUser = temp.IdUser;
+                CreatedAt = temp.CreatedAt;
+                Closed = temp.Closed;
+                CompletedWork = completedWork;
+        };
+
+            foreach (var item in temp.TypeOfWork)
+            {
+                res.TypeOfWork.Add((int)item.Key, item.Value);
+            }
             return base.AddOrder(request, context);
         }
 
