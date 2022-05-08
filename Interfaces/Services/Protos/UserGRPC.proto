@@ -1,0 +1,56 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Interfaces.Services.Protos";
+
+//package greet;
+
+service UserGRPCService {
+  rpc AddUser (AddUserRequest) returns (UserModel);
+  rpc AuthUser (AuthUserRequest) returns (UserModel);
+  rpc RegUser (RegUserRequest) returns (UserModel);
+  rpc GetUserById (GetUserByIdRequest) returns (UserModel);
+  rpc GetUsers (GetUsersRequest) returns (stream UserModel);
+  rpc DeleteUser (DeleteUserRequest) returns (UserModel);
+  rpc NotifyUser (NotifyUserRequest) returns (NullResponse);
+}
+
+message AuthUserRequest{
+	string UserName = 1;
+	string Password = 2;
+}
+message RegUserRequest{
+	string UserName = 1;
+	string Password = 2;
+	string Name = 3;
+	string Phone = 4;
+}
+
+message UserModel{
+	int32 Id = 1;
+	string Name = 2;
+	string Phone = 3;
+}
+
+message AddUserRequest {
+	string Name = 1;
+	string Phone = 2;
+}
+
+message GetUserByIdRequest {
+	int32 id = 1;
+}
+
+message GetUsersRequest{
+}
+
+message NotifyUserRequest{
+	int32 userId = 1;
+	int32 orderId = 2;
+}
+
+message NullResponse{
+}
+
+message DeleteUserRequest {
+ int32 id = 1;
+}

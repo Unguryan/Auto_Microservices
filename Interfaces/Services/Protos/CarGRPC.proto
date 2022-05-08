@@ -1,0 +1,35 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Interfaces.Services.Protos";
+
+//package greet;
+
+service CarGRPCService {
+  rpc AddCar (AddCarRequest) returns (CarModel);
+  rpc GetCarById (GetCarByIdRequest) returns (CarModel);
+  rpc GetCarsByUserId (GetCarByUserIdRequest) returns (stream CarModel);
+  rpc DeleteCar (DeleteCarRequest) returns (CarModel);
+}
+
+message CarModel{
+	int32 Id = 1;
+	int32 IdUser = 2;
+	string Model = 3;
+}
+
+message AddCarRequest {
+	int32 IdUser = 1;
+	string Model = 2;
+}
+
+message GetCarByIdRequest {
+	int32 id = 1;
+}
+
+message GetCarByUserIdRequest{
+	int32 idUser = 1;
+}
+
+message DeleteCarRequest {
+ int32 id = 1;
+}

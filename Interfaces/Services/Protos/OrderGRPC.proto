@@ -1,0 +1,48 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Interfaces.Services.Protos";
+
+//package greet;
+
+service OrderGRPCService {
+  rpc AddOrder (AddOrderRequest) returns (OrderModel);
+  rpc GetOrderById (GetOrderByIdRequest) returns (OrderModel);
+  rpc GetOrders (GetOrdersRequest) returns (stream OrderModel);
+  rpc GetOrdersByUserId (GetOrderByIdRequest) returns (stream OrderModel);
+  rpc GetOrdersByOrderStationId (GetOrderByIdRequest) returns (stream OrderModel);
+  rpc GetOrdersByCarId (GetOrderByIdRequest) returns (stream OrderModel);
+  rpc DeleteOrder (DeleteOrderRequest) returns (OrderModel);
+  rpc CloseOrder (CloseOrderRequest) returns (OrderModel);
+}
+
+message OrderModel{
+	int32 Id = 1;
+	string Name = 2;
+	int32 IdStation = 3;
+	int32 IdUser = 4;
+	string CreatedAt = 5;
+	string Closed = 6;
+	map<int32, int32> CompletedWork = 7;
+}
+
+message AddOrderRequest {
+	string Name = 1;
+	int32 IdStation = 2;
+	int32 IdUser = 3;
+	string CreatedAt = 4;
+	map<int32, int32> CompletedWork = 5;
+}
+
+message GetOrdersRequest {
+}
+
+message GetOrderByIdRequest {
+	int32 id = 1;
+}
+
+message DeleteOrderRequest {
+	int32 id = 1;
+}
+message CloseOrderRequest {
+	int32 id = 1;
+}

@@ -1,0 +1,65 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Interfaces.Services.Protos";
+
+//package greet;
+
+service CarStationGRPCService {
+  rpc AddCarStation (AddCarStationRequest) returns (CarStationModel);
+  rpc GetCarStationById (GetCarStationByIdRequest) returns (CarStationModel);
+  rpc GetCarStationByOwnerId (GetCarStationByOwnerIdRequest) returns (stream CarStationModel);
+  rpc GetCarStations (GetAllCarStationRequest) returns (stream CarStationModel);
+  rpc DeleteCarStation (DeleteCarStationRequest) returns (CarStationModel);
+
+  rpc StartWork (StartWorkRequest) returns (OrderModel);
+  rpc CloseWork (CloseWorkRequest) returns (OrderModel);
+}
+
+message CarStationModel{
+//        List<WorkType> TypeOfWork { get; }
+	int32 Id = 1;
+	int32 IdOwner = 2;
+	string Name = 3;
+	map<int32, int32> TypeOfWork = 4;
+}
+
+message OrderModel{
+//        List<WorkType> TypeOfWork { get; }
+	int32 Id = 1;
+	int32 IdOwner = 2;
+	string Name = 3;
+	map<int32, int32> TypeOfWork = 4;
+}
+
+message StartWorkRequest {
+	string Name = 1;
+	int32 IdUser = 2;
+	int32 IdCarStation = 3;
+	int32 IdCar = 4;
+	map<int32, int32> TypeOfWork = 5;
+}
+
+message CloseWorkRequest {
+	int32 IdOrder = 1;
+}
+
+message AddCarStationRequest {
+	int32 IdOwner = 1;
+	string Name = 2;
+	map<int32, int32> TypeOfWork = 3;
+}
+
+message GetCarStationByIdRequest {
+	int32 id = 1;
+}
+
+message GetCarStationByOwnerIdRequest {
+	int32 id = 1;
+}
+
+message GetAllCarStationRequest{
+}
+
+message DeleteCarStationRequest {
+ int32 id = 1;
+}
