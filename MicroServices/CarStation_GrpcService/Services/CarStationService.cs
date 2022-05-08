@@ -153,7 +153,7 @@ namespace CarStation_GrpcService.Services
             }
         }
 
-        public override async Task<OrderModel> StartWork(StartWorkRequest request, ServerCallContext context)
+        public override async Task<Order> StartWork(StartWorkRequest request, ServerCallContext context)
         {
             var req = new AddOrderRequest()
             {
@@ -176,10 +176,24 @@ namespace CarStation_GrpcService.Services
 
             var client = _clientFactory.GetOrderServiceClient();
 
-            return await client.AddOrderAsync(req);
+            var res = await client.AddOrderAsync(req);
+
+            var order = new Order()
+            {
+                Id = res.Id,
+                Name = res.Name,
+                IdUser = res.IdUser,
+                IdStation = res.IdStation,
+                CreatedAt = res.CreatedAt,
+                Closed = res.Closed,
+            };
+
+            order.CompletedWork.Add(res.CompletedWork);
+
+            return order;
         }
 
-        public override async Task<OrderModel> CloseWork(CloseWorkRequest request, ServerCallContext context)
+        public override async Task<Order> CloseWork(CloseWorkRequest request, ServerCallContext context)
         {
             var client = _clientFactory.GetOrderServiceClient();
 
@@ -188,7 +202,21 @@ namespace CarStation_GrpcService.Services
                 Id = request.IdOrder
             };
 
-            return await client.CloseOrderAsync(req);
+            var res = await client.CloseOrderAsync(req);
+
+            var order = new Order()
+            {
+                Id = res.Id,
+                Name = res.Name,
+                IdUser = res.IdUser,
+                IdStation = res.IdStation,
+                CreatedAt = res.CreatedAt,
+                Closed = res.Closed,
+            };
+
+            order.CompletedWork.Add(res.CompletedWork);
+
+            return order;
         }
     }
 }

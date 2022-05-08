@@ -11,8 +11,8 @@ service CarStationGRPCService {
   rpc GetCarStations (GetAllCarStationRequest) returns (stream CarStationModel);
   rpc DeleteCarStation (DeleteCarStationRequest) returns (CarStationModel);
 
-  rpc StartWork (StartWorkRequest) returns (OrderModel);
-  rpc CloseWork (CloseWorkRequest) returns (OrderModel);
+  rpc StartWork (StartWorkRequest) returns (Order);
+  rpc CloseWork (CloseWorkRequest) returns (Order);
 }
 
 message CarStationModel{
@@ -23,12 +23,15 @@ message CarStationModel{
 	map<int32, int32> TypeOfWork = 4;
 }
 
-message OrderModel{
+message Order{
 //        List<WorkType> TypeOfWork { get; }
 	int32 Id = 1;
-	int32 IdOwner = 2;
-	string Name = 3;
-	map<int32, int32> TypeOfWork = 4;
+	string Name = 2;
+	int32 IdStation = 3;
+	int32 IdUser = 4;
+	string CreatedAt = 5;
+	string Closed = 6;
+	map<int32, int32> CompletedWork = 7;
 }
 
 message StartWorkRequest {

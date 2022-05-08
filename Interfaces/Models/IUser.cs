@@ -11,5 +11,7 @@ namespace Interfaces.Models
         string Name { get; }
 
         string Phone { get; }
+
+        public void OrderCompleted(IOrder action);
     }
 }
