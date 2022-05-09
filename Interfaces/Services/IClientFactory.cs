@@ -1,4 +1,5 @@
-﻿using Interfaces.Services.Protos;
+﻿using Interfaces.Services.Clients;
+using Interfaces.Services.Protos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,12 +8,12 @@ namespace Interfaces.Services
 {
     public interface IClientFactory
     {
-        OrderGRPCService.OrderGRPCServiceClient GetOrderServiceClient();
+        IOrderServiceClient GetOrderServiceClient();
 
-        CarGRPCService.CarGRPCServiceClient GetCarServiceClient();
+        ICarServiceClient GetCarServiceClient();
 
-        CarStationGRPCService.CarStationGRPCServiceClient GetCarStationServiceClient();
+        ICarStationServiceClient GetCarStationServiceClient();
 
-        UserGRPCService.UserGRPCServiceClient GetUserServiceClient();
+        IUserServiceClient GetUserServiceClient();
     }
 }
