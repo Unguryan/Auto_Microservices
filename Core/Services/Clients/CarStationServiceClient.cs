@@ -6,5 +6,6 @@ namespace Core.Services.Clients
 {
     internal class CarStationServiceClient
     {
+        
     }
 }
