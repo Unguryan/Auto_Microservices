@@ -23,18 +23,22 @@ namespace Core.Services
         {
             //var channel = GrpcChannel.ForAddress("https://localhost:5002");
             //return new CarStationGRPCService.CarStationGRPCServiceClient(channel);
+
+            return new CarStationServiceClient();
         }
 
         public IOrderServiceClient GetOrderServiceClient()
         {
             //var channel = GrpcChannel.ForAddress("https://localhost:5003");
             //return new OrderGRPCService.OrderGRPCServiceClient(channel);
+            return new OrderServiceClient();
         }
 
         public IUserServiceClient GetUserServiceClient()
         {
             //var channel = GrpcChannel.ForAddress("https://localhost:5004");
             //return new UserGRPCService.UserGRPCServiceClient(channel);
+            return new UserServiceClient();
         }
     }
 }
