@@ -13,6 +13,6 @@ namespace Interfaces.Services
 
         CarStationGRPCService.CarStationGRPCServiceClient GetCarStationServiceClient();
 
-        UserGRPCService.UserGRPCServiceClient GetCarUserServiceClient();
+        UserGRPCService.UserGRPCServiceClient GetUserServiceClient();
     }
 }

@@ -27,7 +27,7 @@ namespace Core.Services
             return new OrderGRPCService.OrderGRPCServiceClient(channel);
         }
 
-        public UserGRPCService.UserGRPCServiceClient GetCarUserServiceClient()
+        public UserGRPCService.UserGRPCServiceClient GetUserServiceClient()
         {
             var channel = GrpcChannel.ForAddress("https://localhost:5004");
             return new UserGRPCService.UserGRPCServiceClient(channel);

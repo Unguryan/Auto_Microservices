@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 namespace Order_GrpcService.Models
 {
-    public class Order : IOrder
+    public class OrderUI : IOrder
     {
-        public Order(string name, 
+        public OrderUI(string name, 
                     int idStation,
                     int idUser,
+                    int idCar,
                     DateTime createdAt,
                     DateTime closed,
                     IDictionary<int, int> completedWork)
@@ -16,15 +17,17 @@ namespace Order_GrpcService.Models
             Name = name;
             IdStation = idStation;
             IdUser = idUser;
+            IdCar = idCar;
             CreatedAt = createdAt;
             Closed = closed;
             CompletedWork = completedWork;
         }
 
-        public Order(int id, 
+        public OrderUI(int id, 
                     string name,
                     int idStation, 
                     int idUser,
+                    int idCar,
                     DateTime createdAt, 
                     DateTime closed, 
                     IDictionary<int, int> completedWork)
@@ -33,6 +36,7 @@ namespace Order_GrpcService.Models
             Name = name;
             IdStation = idStation;
             IdUser = idUser;
+            IdCar = idCar;
             CreatedAt = createdAt;
             Closed = closed;
             CompletedWork = completedWork;
@@ -46,9 +50,11 @@ namespace Order_GrpcService.Models
 
         public int IdUser { get; }
 
+        public int IdCar { get; }
+
         public DateTime CreatedAt { get; }
 
-        public DateTime Closed { get; }
+        public DateTime Closed { get; set; }
 
         public IDictionary<int, int> CompletedWork { get; }
     }

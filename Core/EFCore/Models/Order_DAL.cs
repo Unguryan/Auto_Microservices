@@ -30,6 +30,8 @@ namespace Core.EFCore.Models
 
         public int IdUser { get; set; }
 
+        public int IdCar { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime Closed { get; set; }

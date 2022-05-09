@@ -20,17 +20,19 @@ message OrderModel{
 	string Name = 2;
 	int32 IdStation = 3;
 	int32 IdUser = 4;
-	string CreatedAt = 5;
-	string Closed = 6;
-	map<int32, int32> CompletedWork = 7;
+	int32 IdCar = 5;
+	string CreatedAt = 6;
+	string Closed = 7;
+	map<int32, int32> CompletedWork = 8;
 }
 
 message AddOrderRequest {
 	string Name = 1;
 	int32 IdStation = 2;
 	int32 IdUser = 3;
-	string CreatedAt = 4;
-	map<int32, int32> CompletedWork = 5;
+	int32 IdCar = 4;
+	string CreatedAt = 5;
+	map<int32, int32> CompletedWork = 6;
 }
 
 message GetOrdersRequest {

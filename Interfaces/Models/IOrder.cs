@@ -14,9 +14,11 @@ namespace Interfaces.Models
 
         int IdUser { get; }
 
+        int IdCar { get; }
+
         DateTime CreatedAt { get; }
 
-        DateTime Closed { get; }
+        DateTime Closed { get; set; }
 
         IDictionary<int, int> CompletedWork { get; }
     }
