@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Order_GrpcService.Models
 {
-    public class OrderUI : IOrder
+    public class OrderM : IOrder
     {
-        public OrderUI(string name, 
+        public OrderM(string name, 
                     int idStation,
                     int idUser,
                     int idCar,
@@ -23,7 +23,7 @@ namespace Order_GrpcService.Models
             CompletedWork = completedWork;
         }
 
-        public OrderUI(int id, 
+        public OrderM(int id, 
                     string name,
                     int idStation, 
                     int idUser,
@@ -57,5 +57,7 @@ namespace Order_GrpcService.Models
         public DateTime Closed { get; set; }
 
         public IDictionary<int, int> CompletedWork { get; }
+
+        public bool IsClosed => Closed != DateTime.MinValue;
     }
 }

@@ -16,6 +16,8 @@ namespace Interfaces.Models
 
         int IdCar { get; }
 
+        bool IsClosed { get; }
+
         DateTime CreatedAt { get; }
 
         DateTime Closed { get; set; }

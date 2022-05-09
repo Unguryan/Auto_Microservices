@@ -33,7 +33,7 @@ namespace Order_GrpcService.Services
             {
                 completedWork.Add(item.Key, item.Value);
             }
-            var model = new OrderUI(request.Name, request.IdStation, request.IdUser, request.IdCar, DateTime.Parse(request.CreatedAt), DateTime.MinValue, completedWork);
+            var model = new OrderM(request.Name, request.IdStation, request.IdUser, request.IdCar, DateTime.Parse(request.CreatedAt), DateTime.MinValue, completedWork);
             var temp = await _context.Add(model);
 
             if (temp == null)

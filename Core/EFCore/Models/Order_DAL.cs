@@ -37,5 +37,7 @@ namespace Core.EFCore.Models
         public DateTime Closed { get; set; }
 
         public IDictionary<int, int> CompletedWork { get; set; }
+        
+        public bool IsClosed { get; }
     }
 }
