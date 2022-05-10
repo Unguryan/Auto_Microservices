@@ -35,7 +35,7 @@ namespace Core.Services.Clients
             {
                 Id = res.Id,
                 Model = res.Model,
-                IdUser = res.Id
+                IdUser = res.IdUser
             };
         }
 

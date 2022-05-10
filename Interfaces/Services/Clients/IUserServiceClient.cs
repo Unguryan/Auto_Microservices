@@ -13,6 +13,6 @@ namespace Interfaces.Services.Clients
         Task<IUser> GetUserById(int id);
         Task<IEnumerable<IUser>> GetUsers();
         Task<IUser> DeleteUser(int id);
-        Task<IUser> NotifyUser(int userId, int oderId);
+        Task NotifyUser(int userId, int oderId);
     }
 }

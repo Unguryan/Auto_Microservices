@@ -10,7 +10,7 @@ namespace Interfaces.Services.Clients
     {
         Task<IOrder> AddOrder(string name, int idStation, int idUser, int idCar, string createdAt);
         Task<IOrder> GetOrderById(int id);
-        Task <IEnumerable<IOrder >> GetOrders();
+        Task<IEnumerable<IOrder>> GetOrders();
         Task<IEnumerable<IOrder>> GetOrdersByUserId(int id);
         Task<IEnumerable<IOrder>> GetOrdersByOrderStationId(int id);
         Task<IEnumerable<IOrder>> GetOrdersByCarId(int id);
