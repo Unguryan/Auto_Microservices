@@ -25,6 +25,6 @@ namespace Core.EFCore.Models
 
         public string Name { get; set; }
 
-        public IDictionary<WorkType, int> TypeOfWork { get; set; }
+        public IDictionary<WorkType, int> TypeOfWork { get; set; } = new Dictionary<WorkType, int>();
     }
 }

@@ -7,10 +7,6 @@ namespace UI.Models
 {
     public class CarUI : ICar
     {
-        public CarUI()
-        {
-        }
-
         public CarUI(int id, ICar source)
         {
             Id = id;
@@ -18,10 +14,17 @@ namespace UI.Models
             Model = source.Model;
         }
 
-        public int Id { get; set; }
+        public CarUI(int id, int idUser, string model)
+        {
+            Id = id;
+            IdUser = idUser;
+            Model = model;
+        }
 
-        public int IdUser { get; set; }
+        public int Id { get; }
 
-        public string Model { get; set; }
+        public int IdUser { get; }
+
+        public string Model { get; }
     }
 }

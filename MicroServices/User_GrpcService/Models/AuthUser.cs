@@ -1,5 +1,8 @@
-﻿namespace User_GrpcService.Models
+﻿using System;
+
+namespace User_GrpcService.Models
 {
+    [Serializable]
     public class AuthUser
     {
         public int Id { get; set; }

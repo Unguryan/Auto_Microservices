@@ -21,7 +21,12 @@ namespace Core.Services.Clients
             _client = new OrderGRPCService.OrderGRPCServiceClient(channel);
         }
 
-        public async Task<IOrder> AddOrder(string name, int idStation, int idUser, int idCar, string createdAt)
+        public async Task<IOrder> AddOrder(string name,
+                                           int idStation, 
+                                           int idUser, 
+                                           int idCar,
+                                           string createdAt, 
+                                           IDictionary<int, int> completedWork)
         {
             var req = new AddOrderRequest()
             {
@@ -31,6 +36,8 @@ namespace Core.Services.Clients
                 IdCar = idCar,
                 CreatedAt = createdAt
             };
+            req.CompletedWork.Add(completedWork);
+
             var res = await _client.AddOrderAsync(req);
             return new Order_DAL()
             {

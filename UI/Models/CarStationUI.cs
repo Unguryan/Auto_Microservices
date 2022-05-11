@@ -7,10 +7,6 @@ namespace UI.Models
 {
     public class CarStationUI : ICarStation
     {
-        public CarStationUI()
-        {
-        }
-
         public CarStationUI(int id, ICarStation source)
         {
             Id = id;
@@ -19,12 +15,20 @@ namespace UI.Models
             TypeOfWork = source.TypeOfWork;
         }
 
-        public int Id { get; set; }
+        public CarStationUI(int id, int idOwner, string name, IDictionary<WorkType, int> typeOfWork)
+        {
+            Id = id;
+            IdOwner = idOwner;
+            Name = name;
+            TypeOfWork = typeOfWork;
+        }
 
-        public int IdOwner { get; set; }
+        public int Id { get; }
 
-        public string Name { get; set; }
+        public int IdOwner { get; }
 
-        public IDictionary<WorkType, int> TypeOfWork { get; set; }
+        public string Name { get; }
+
+        public IDictionary<WorkType, int> TypeOfWork { get; }
     }
 }

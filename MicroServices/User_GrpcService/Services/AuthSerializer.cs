@@ -7,7 +7,7 @@ namespace User_GrpcService.Services
 {
     public class AuthSerializer
     {
-        private const string Path = "AuthUsers";
+        private const string Path = "AuthUsers.txt";
 
         public void Serialize(IList<AuthUser> users)
         {
@@ -27,7 +27,10 @@ namespace User_GrpcService.Services
             BinaryFormatter formatter = new BinaryFormatter();
 
             using Stream fStream = File.OpenRead(Path);
-            return (IList<AuthUser>)formatter.Deserialize(fStream);
+            //fStream.Position = 0;
+            var t = formatter.Deserialize(fStream);
+
+            return (IList<AuthUser>)t;
         }
     }
 }

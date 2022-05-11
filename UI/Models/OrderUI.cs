@@ -7,10 +7,6 @@ namespace UI.Models
 {
     public class OrderUI : IOrder
     {
-        public OrderUI()
-        {
-        }
-
         public OrderUI(int id, IOrder source)
         {
             Id = id;
@@ -22,22 +18,41 @@ namespace UI.Models
             CompletedWork = source.CompletedWork;
         }
 
-        public int Id { get; set; }
+        public OrderUI(int id, 
+                       string name, 
+                       int idStation,
+                       int idUser, 
+                       int idCar, 
+                       DateTime createdAt, 
+                       DateTime closed, 
+                       IDictionary<int, int> completedWork)
+        {
+            Id = id;
+            Name = name;
+            IdStation = idStation;
+            IdUser = idUser;
+            IdCar = idCar;
+            CreatedAt = createdAt;
+            Closed = closed;
+            CompletedWork = completedWork;
+        }
 
-        public string Name { get; set; }
+        public int Id { get; }
 
-        public int IdStation { get; set; }
+        public string Name { get; }
 
-        public int IdUser { get; set; }
+        public int IdStation { get; }
 
-        public int IdCar { get; set; }
+        public int IdUser { get; }
 
-        public DateTime CreatedAt { get; set; }
+        public int IdCar { get; }
+
+        public DateTime CreatedAt { get; }
 
         public DateTime Closed { get; set; }
 
-        public IDictionary<int, int> CompletedWork { get; set; }
+        public IDictionary<int, int> CompletedWork { get; }
         
-        public bool IsClosed { get; }
+        public bool IsClosed => Closed != DateTime.MinValue;
     }
 }

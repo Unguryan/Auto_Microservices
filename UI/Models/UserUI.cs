@@ -7,10 +7,6 @@ namespace UI.Models
 {
     public class UserUI : IUser
     {
-        public UserUI()
-        {
-        }
-
         public UserUI(int id, IUser source)
         {
             Id = id;
@@ -18,11 +14,18 @@ namespace UI.Models
             Phone = source.Phone;
         }
 
-        public int Id { get; set; }
+        public UserUI(int id, string name, string phone)
+        {
+            Id = id;
+            Name = name;
+            Phone = phone;
+        }
 
-        public string Name { get; set; }
+        public int Id { get; }
 
-        public string Phone { get; set; }
+        public string Name { get; }
+
+        public string Phone { get; }
 
         public void OrderCompleted(IOrder action)
         {

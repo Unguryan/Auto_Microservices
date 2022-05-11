@@ -134,7 +134,7 @@ namespace User_GrpcService.Services
             var orderService = _clientFactory.GetOrderServiceClient();
 
             var temp = await _context.GetById(request.UserId);
-            var orderModel = await orderService.GetOrderByIdAsync(new GetOrderByIdRequest() { Id = request.OrderId });
+            var orderModel = await orderService.GetOrderById(request.OrderId);
 
             //Task.WaitAll();
 
@@ -149,8 +149,8 @@ namespace User_GrpcService.Services
                 IdStation = orderModel.IdStation,
                 IdUser = orderModel.IdUser,
                 Name = orderModel.Name,
-                CreatedAt = DateTime.Parse(orderModel.CreatedAt),
-                Closed = DateTime.Parse(orderModel.Closed),
+                CreatedAt = orderModel.CreatedAt,
+                Closed = orderModel.Closed,
                 CompletedWork = orderModel.CompletedWork
             };
 

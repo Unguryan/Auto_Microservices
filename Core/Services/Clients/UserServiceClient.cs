@@ -29,12 +29,14 @@ namespace Core.Services.Clients
                 Password = password
             };
             var res = await _client.AuthUserAsync(req);
-            return new User_DAL()
+            var user = new User_DAL()
             {
                 Id = res.Id,
                 Name = res.Name,
                 Phone = res.Phone
-        };
+            };
+
+            return user;
         }
 
         public async Task<IUser> DeleteUser(int id)

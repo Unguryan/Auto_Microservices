@@ -155,18 +155,11 @@ namespace CarStation_GrpcService.Services
 
         public override async Task<Order> StartWork(StartWorkRequest request, ServerCallContext context)
         {
-            var req = new AddOrderRequest()
-            {
-                Name = request.Name,
-                IdUser = request.IdUser,
-                IdStation = request.IdCarStation,
-                CreatedAt = DateTime.Now.ToString()
-            };
             //var station = await _context.GetById(request.IdCarStation);
 
             //var workType = station.TypeOfWork.Where((key, value) => request.TypeOfWork.Any(t => t == (int)key));
             //request.TypeOfWork
-            req.CompletedWork.Add(request.TypeOfWork);
+            //req.CompletedWork.Add();
 
             //foreach (var item in workType)
             //{
@@ -176,16 +169,17 @@ namespace CarStation_GrpcService.Services
 
             var client = _clientFactory.GetOrderServiceClient();
 
-            var res = await client.AddOrderAsync(req);
+            var res = await client.AddOrder(request.Name, request.IdCarStation, request.IdUser, request.IdCar, DateTime.Now.ToString(), request.TypeOfWork);
 
             var order = new Order()
             {
                 Id = res.Id,
                 Name = res.Name,
                 IdUser = res.IdUser,
+                IdCar = res.IdCar,
                 IdStation = res.IdStation,
-                CreatedAt = res.CreatedAt,
-                Closed = res.Closed,
+                CreatedAt = res.CreatedAt.ToString(),
+                Closed = res.Closed.ToString(),
             };
 
             order.CompletedWork.Add(res.CompletedWork);
@@ -197,12 +191,7 @@ namespace CarStation_GrpcService.Services
         {
             var client = _clientFactory.GetOrderServiceClient();
 
-            var req = new CloseOrderRequest()
-            {
-                Id = request.IdOrder
-            };
-
-            var res = await client.CloseOrderAsync(req);
+            var res = await client.CloseOrder(request.IdOrder);
 
             var order = new Order()
             {
@@ -210,8 +199,8 @@ namespace CarStation_GrpcService.Services
                 Name = res.Name,
                 IdUser = res.IdUser,
                 IdStation = res.IdStation,
-                CreatedAt = res.CreatedAt,
-                Closed = res.Closed,
+                CreatedAt = res.CreatedAt.ToString(),
+                Closed = res.Closed.ToString(),
             };
 
             order.CompletedWork.Add(res.CompletedWork);

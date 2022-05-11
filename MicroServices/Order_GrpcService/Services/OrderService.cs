@@ -70,12 +70,8 @@ namespace Order_GrpcService.Services
             }
 
             var userClient = _clientFactory.GetUserServiceClient();
-            var req = new NotifyUserRequest()
-            {
-                OrderId = request.Id,
-                UserId = order.IdUser
-            };
-            await userClient.NotifyUserAsync(req);
+            
+            await userClient.NotifyUser(order.IdUser, request.Id);
 
             var res = new OrderModel()
             {
