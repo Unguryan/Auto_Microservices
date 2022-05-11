@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UI.Extra;
 
 namespace UI.ViewModels.CarStation
 {
-    internal class CarStationViewModel
+    public class CarStationViewModel : BaseViewModel
     {
     }
 }

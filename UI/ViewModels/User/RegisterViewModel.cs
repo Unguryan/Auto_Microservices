@@ -5,21 +5,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using UI.Extra;
 using UI.Extra.Commands.Common;
 using UI.View;
+using UI.View.User;
 
 namespace UI.ViewModels.User
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : BaseViewModel
     {
         private readonly IUserServiceClient _userService;
 
-        private Action _closeWindow;
+        //private Action _closeWindow;
 
-        public RegisterViewModel(IUserServiceClient userService, Action closeWindowAction)
+        public RegisterViewModel(IUserServiceClient userService)
         {
             _userService = userService;
-            _closeWindow = closeWindowAction;
+            //_closeWindow = closeWindowAction;
 
             RegCommand = new RelayCommand(() => RegisterAction());
             ExitCommand = new RelayCommand(() => ExitAction());
@@ -51,13 +53,13 @@ namespace UI.ViewModels.User
 
             MessageBox.Show("Success");
 
-            LoginView view = new LoginView();
-            LoginViewModel viewModel = new LoginViewModel(_userService, view.Close);
-            view.DataContext = viewModel;
+            //LoginView view = new LoginView();
+            //LoginViewModel viewModel = new LoginViewModel(_userService, );
+            //view.DataContext = viewModel;
 
-            view.Show();
+            //view.Show();
 
-            _closeWindow.Invoke();
+            //_closeWindow.Invoke();
         }
 
         private void ExitAction()

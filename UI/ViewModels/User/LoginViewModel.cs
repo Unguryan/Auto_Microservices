@@ -9,22 +9,26 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Extra;
 using UI.Extra.Commands.Common;
+using UI.Interfaces;
 using UI.Models;
 using UI.View;
+using UI.View.User;
 using UI.ViewModels.User;
 
 namespace UI.ViewModels.User
 {
-    public class LoginViewModel
+    public class LoginViewModel : BaseViewModel
     {
         private readonly IUserServiceClient _userService;
+        private readonly IViewModelAggregator _viewModelAggregator;
 
-        private Action _closeWindow;
+        //private Action _closeWindow;
 
-        public LoginViewModel(IUserServiceClient userService, Action closeWindowAction)
+        public LoginViewModel(IServices services)
         {
-            _userService = userService;
-            _closeWindow = closeWindowAction;
+            _userService = services.UserServiceClient;
+            _viewModelAggregator = services.ViewModelAggregator;
+            // _closeWindow = closeWindowAction;
 
             IsAuth = false;
 
@@ -36,6 +40,11 @@ namespace UI.ViewModels.User
             ExitCommand = new RelayCommand(() => ExitAction());
         }
 
+        public LoginViewModel()
+        {
+            
+        }
+
         public string Username { get; set; }
 
         //public string Password { get; set; }
@@ -45,6 +54,7 @@ namespace UI.ViewModels.User
         public ICommand RegCommand { get; }
 
         public ICommand ExitCommand { get; }
+
         public bool IsAuth { get; set; }
 
         private void LoginAction(object o)
@@ -73,17 +83,18 @@ namespace UI.ViewModels.User
                 }
             }
 
+            _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
             MessageBox.Show("MAIN!");
         }
 
         private void RegisterAction()
         {
-            RegisterView view = new RegisterView();
-            RegisterViewModel viewModel = new RegisterViewModel(_userService, view.Close);
-            view.DataContext = viewModel;
+            //RegisterView view = new RegisterView();
+            //RegisterViewModel viewModel = new RegisterViewModel(_userService, view.Close);
+            //view.DataContext = viewModel;
 
-            view.Show();
-            _closeWindow.Invoke();
+            //view.Show();
+            ////_closeWindow.Invoke();
         }
 
         private void ExitAction()
@@ -112,14 +123,14 @@ namespace UI.ViewModels.User
                     return;
                 }
 
-                MainViewModel main = new MainViewModel();
-                MainView view = new MainView();
-                view.DataContext = main;
-                view.Show();
+                //MainViewModel main = new MainViewModel();
+                //MainView view = new MainView();
+                //view.DataContext = main;
+                //view.Show();
 
                 IsAuth = true;
 
-                _closeWindow.Invoke();
+                //_closeWindow.Invoke();
             }
             else
             {

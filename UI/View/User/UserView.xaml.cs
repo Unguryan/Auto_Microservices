@@ -15,7 +15,7 @@ namespace UI.View.User
     /// <summary>
     /// Логика взаимодействия для UserView.xaml
     /// </summary>
-    public partial class UserView : Window
+    public partial class UserView : UserControl
     {
         public UserView()
         {

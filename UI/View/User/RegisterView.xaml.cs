@@ -10,12 +10,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace UI.View
+namespace UI.View.User
 {
     /// <summary>
     /// Логика взаимодействия для RegisterView.xaml
     /// </summary>
-    public partial class RegisterView : Window
+    public partial class RegisterView : UserControl
     {
         public RegisterView()
         {
