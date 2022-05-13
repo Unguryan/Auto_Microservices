@@ -7,6 +7,7 @@ using Interfaces.Services.Clients;
 using Interfaces.Services.Protos;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,11 @@ namespace Core.Services.Clients
 
         public CarServiceClient()
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
+
+           // var channel = GrpcChannel.ForAddress("https://localhost:5001");
             _client = new CarGRPCService.CarGRPCServiceClient(channel);
         }
 

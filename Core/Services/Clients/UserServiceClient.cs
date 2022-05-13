@@ -6,6 +6,7 @@ using Interfaces.Services.Clients;
 using Interfaces.Services.Protos;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,11 @@ namespace Core.Services.Clients
 
         public UserServiceClient()
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:5004");
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            var channel = GrpcChannel.ForAddress("https://localhost:5004", new GrpcChannelOptions { HttpHandler = httpHandler });
+
+           // var channel = GrpcChannel.ForAddress("https://localhost:5004");
             _client = new UserGRPCService.UserGRPCServiceClient(channel);
         }
 
