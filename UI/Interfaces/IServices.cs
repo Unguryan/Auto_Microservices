@@ -1,4 +1,5 @@
-﻿using Interfaces.Services.Clients;
+﻿using Interfaces.Models;
+using Interfaces.Services.Clients;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,8 @@ namespace UI.Interfaces
         IViewModelMapper ViewModelMapper { get; }
 
         IViewModelAggregator ViewModelAggregator { get; }
+
+        IUser ActiveUser { get; set; }
 
         //IUnityContainer Resolver { get; }
     }

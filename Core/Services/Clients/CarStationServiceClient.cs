@@ -109,18 +109,38 @@ namespace Core.Services.Clients
             return list;
         }
 
-        public async Task<ICarStation> GetCarStations()
+        public async Task<IEnumerable<ICarStation>> GetCarStations()
         {
-            var req = new GetCarStationByIdRequest()
+            //var req = new GetCarStationByIdRequest()
+            //{
+            //};
+            //var res = await _client.GetCarStationByIdAsync(req);
+            //return new CarStation_DAL()
+            //{
+            //    Id = res.Id,
+            //    IdOwner = res.IdOwner,
+            //    Name = res.Name
+            //};
+
+            var req = new GetAllCarStationRequest()
             {
             };
-            var res = await _client.GetCarStationByIdAsync(req);
-            return new CarStation_DAL()
+
+            using var res = _client.GetCarStations(req);
+
+            var list = new List<ICarStation>();
+
+            await foreach (var data in res.ResponseStream.ReadAllAsync())
             {
-                Id = res.Id,
-                IdOwner = res.IdOwner,
-                Name = res.Name
-            };
+                var temp = new CarStation_DAL()
+                {
+                    Id = data.Id,
+                    IdOwner = data.IdOwner,
+                    Name = data.Name
+                };
+                list.Add(temp);
+            }
+            return list;
         }
 
         public async Task<IOrder> StartWork(string name, int idUser, int idCarStation, int idCar)

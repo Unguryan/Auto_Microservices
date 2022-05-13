@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using UI.Extra;
 using UI.Extra.Commands.Common;
+using UI.Interfaces;
 using UI.View;
 using UI.View.User;
 
@@ -15,12 +16,14 @@ namespace UI.ViewModels.User
     public class RegisterViewModel : BaseViewModel
     {
         private readonly IUserServiceClient _userService;
+        private readonly IViewModelAggregator _viewModelAggregator;
 
         //private Action _closeWindow;
 
-        public RegisterViewModel(IUserServiceClient userService)
+        public RegisterViewModel(IServices services)
         {
-            _userService = userService;
+            _userService = services.UserServiceClient;
+            _viewModelAggregator = services.ViewModelAggregator;
             //_closeWindow = closeWindowAction;
 
             RegCommand = new RelayCommand(() => RegisterAction());
@@ -51,7 +54,8 @@ namespace UI.ViewModels.User
                 return;
             }
 
-            MessageBox.Show("Success");
+            _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
+            //MessageBox.Show("Success");
 
             //LoginView view = new LoginView();
             //LoginViewModel viewModel = new LoginViewModel(_userService, );

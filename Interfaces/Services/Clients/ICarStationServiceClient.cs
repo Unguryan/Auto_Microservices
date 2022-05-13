@@ -11,7 +11,7 @@ namespace Interfaces.Services.Clients
         Task<ICarStation> AddCarStation(int idOwner, string name);
         Task<ICarStation> GetCarStationById(int id);
         Task<IEnumerable<ICarStation>> GetCarStationByOwnerIdRequest (int id);
-        Task<ICarStation> GetCarStations();
+        Task<IEnumerable<ICarStation>> GetCarStations();
         Task<ICarStation> DeleteCarStation(int id);
         Task<IOrder> StartWork(string name, int idUser, int idCarStation, int idCar);
         Task<IOrder> CloseWork(int idOrder);

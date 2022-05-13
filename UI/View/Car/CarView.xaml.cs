@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace UI.View.Car
 {
     /// <summary>
-    /// Логика взаимодействия для AddCarView.xaml
+    /// Логика взаимодействия для CarView.xaml
     /// </summary>
-    public partial class AddCarView : UserControl
+    public partial class CarView : UserControl
     {
-        public AddCarView()
+        public CarView()
         {
             InitializeComponent();
         }

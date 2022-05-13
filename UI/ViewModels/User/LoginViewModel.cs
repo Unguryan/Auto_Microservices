@@ -20,24 +20,31 @@ namespace UI.ViewModels.User
     public class LoginViewModel : BaseViewModel
     {
         private readonly IUserServiceClient _userService;
+
         private readonly IViewModelAggregator _viewModelAggregator;
 
-        //private Action _closeWindow;
+        
+
+        private PasswordBox _passwordControl;
 
         public LoginViewModel(IServices services)
         {
             _userService = services.UserServiceClient;
             _viewModelAggregator = services.ViewModelAggregator;
-            // _closeWindow = closeWindowAction;
 
-            IsAuth = false;
+            _viewModelAggregator.OnGetLastSavedUser += OnGetLastSavedUser;
 
-            GetLastSavedUser();
+            //GetLastSavedUser();
 
 
             LoginCommand = new RelayCommand<object>((x) => LoginAction(x));
             RegCommand = new RelayCommand(() => RegisterAction());
             ExitCommand = new RelayCommand(() => ExitAction());
+        }
+
+        private void OnGetLastSavedUser()
+        {
+            GetLastSavedUser();
         }
 
         public LoginViewModel()
@@ -55,18 +62,19 @@ namespace UI.ViewModels.User
 
         public ICommand ExitCommand { get; }
 
-        public bool IsAuth { get; set; }
-
         private void LoginAction(object o)
         {
             var passControl = o as PasswordBox;
-
             var password = passControl.Password;
-            IUser user = null;
-            Task.Run(async () => user = await _userService.AuthUser(Username, password)).Wait();
+            _passwordControl = passControl;
 
-            //user.Wait();
-            if(user == null)
+            //_userService.AuthUser(Username, password).RunAsync();
+            //Task.Run(async () => user = await _userService.AuthUser(Username, password)).Wait();
+
+            IUser user = null;
+            AsyncRunner.RunAsync(async () => await _userService.AuthUser(Username, password), ref user);
+
+            if (user == null)
             {
                 MessageBox.Show("Error");
             }
@@ -83,9 +91,25 @@ namespace UI.ViewModels.User
                 }
             }
 
+            _viewModelAggregator.ChangeActiveUser(user);
             _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
-            MessageBox.Show("MAIN!");
+            //MessageBox.Show("MAIN!");
         }
+
+        //private void Pass(Func<Task<IUser>> p)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private void Pass(Task<IUser> task)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private void Pass(Func<string, string, Task<IUser>> authUser)
+        //{
+        //    authUser.Invo
+        //}
 
         private void RegisterAction()
         {
@@ -95,6 +119,9 @@ namespace UI.ViewModels.User
 
             //view.Show();
             ////_closeWindow.Invoke();
+            ///
+
+            _viewModelAggregator.ChangeActiveVM(typeof(RegisterViewModel));
         }
 
         private void ExitAction()
@@ -115,7 +142,7 @@ namespace UI.ViewModels.User
             if(res == MessageBoxResult.Yes)
             {
                 IUser user = null;
-                Task.Run(async () => user = await _userService.AuthUser(userAuth.UserName, userAuth.Password)).Wait();
+                AsyncRunner.RunAsync(async () => await _userService.AuthUser(userAuth.UserName, userAuth.Password), ref user);
                 
                 if (user == null)
                 {
@@ -128,13 +155,15 @@ namespace UI.ViewModels.User
                 //view.DataContext = main;
                 //view.Show();
 
-                IsAuth = true;
-
                 //_closeWindow.Invoke();
+                _viewModelAggregator.ChangeActiveUser(user);
+                _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
             }
             else
             {
-                   Username = string.Empty;
+                Username = string.Empty;
+                if(_passwordControl != null)
+                    _passwordControl.Password = string.Empty;
                 //Password = string.Empty;
             }
         }

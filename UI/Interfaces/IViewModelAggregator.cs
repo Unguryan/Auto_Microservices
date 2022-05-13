@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +10,13 @@ namespace UI.Interfaces
         event Action<Type> OnViewModelChanged;
 
         void ChangeActiveVM(Type viewModel);
+
+
+        event Action OnGetLastSavedUser;
+
+        void GetLastSavedUser();
+
+        event Action<IUser> OnChangingActiveUser;
+        void ChangeActiveUser(IUser user);
     }
 }

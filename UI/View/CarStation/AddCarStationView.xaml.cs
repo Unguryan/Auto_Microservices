@@ -10,14 +10,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace UI.View.Car
+namespace UI.View.CarStation
 {
     /// <summary>
-    /// Логика взаимодействия для AddCarView.xaml
+    /// Логика взаимодействия для AddCarStationView.xaml
     /// </summary>
-    public partial class AddCarView : UserControl
+    public partial class AddCarStationView : Window
     {
-        public AddCarView()
+        public AddCarStationView()
         {
             InitializeComponent();
         }

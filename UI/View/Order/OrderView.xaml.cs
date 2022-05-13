@@ -15,7 +15,7 @@ namespace UI.View.Order
     /// <summary>
     /// Логика взаимодействия для OrderView.xaml
     /// </summary>
-    public partial class OrderView : Window
+    public partial class OrderView : UserControl
     {
         public OrderView()
         {

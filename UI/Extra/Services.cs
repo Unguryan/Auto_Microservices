@@ -1,4 +1,5 @@
 ﻿using Core.Services;
+using Interfaces.Models;
 using Interfaces.Services.Clients;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,15 @@ namespace UI.Extra
 
             UIModule.RegisterVMs(ViewModelMapper);
 
+            ViewModelAggregator.OnChangingActiveUser += OnChangingActiveUser;
+
             //Resolver = new UnityContainer();
             //UIModule.RegisterModules(Resolver);
+        }
+
+        private void OnChangingActiveUser(IUser user)
+        {
+            ActiveUser = user;
         }
 
         public ICarServiceClient CarServiceClient => _clientFactory.GetCarServiceClient();
@@ -35,6 +43,8 @@ namespace UI.Extra
         public IViewModelMapper ViewModelMapper { get; }
 
         public IViewModelAggregator ViewModelAggregator { get; }
+
+        public IUser ActiveUser { get; set; }
 
 
         //public IUnityContainer Resolver { get; }

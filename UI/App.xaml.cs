@@ -29,7 +29,7 @@ namespace UI
             view.Show();
 
             services.ViewModelAggregator.ChangeActiveVM(typeof(LoginViewModel));
-            
+            services.ViewModelAggregator.GetLastSavedUser();
 
             //LoginView view = new LoginView();
             //LoginViewModel viewModel = new LoginViewModel(new UserServiceClient(), view.Close);
