@@ -15,7 +15,7 @@ namespace UI.View.CarStation
     /// <summary>
     /// Логика взаимодействия для AddCarStationView.xaml
     /// </summary>
-    public partial class AddCarStationView : Window
+    public partial class AddCarStationView : UserControl
     {
         public AddCarStationView()
         {

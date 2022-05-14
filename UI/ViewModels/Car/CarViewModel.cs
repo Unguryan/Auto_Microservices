@@ -3,6 +3,7 @@ using Interfaces.Services.Clients;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace UI.ViewModels.Car
         private readonly IUser _activeUser;
 
         private Visibility _addCarVisibility;
+        //private bool _isRepairEnabled;
 
         public CarViewModel(IServices services)
         {
@@ -44,7 +46,7 @@ namespace UI.ViewModels.Car
 
             AddCarCommand = new RelayCommand(() => AddCarAction());
             RemoveCarCommand = new RelayCommand(() => RemoveCarAction());
-            RepairCarCommand = new RelayCommand(() => RepairCarAction());
+            RepairCarCommand = new RelayCommand(() => RepairCarAction(), (_) => { return CarStations.Any(); });
         }
 
         public ObservableCollection<ICar> Cars { get; }
@@ -67,6 +69,13 @@ namespace UI.ViewModels.Car
             }
         }
 
+        //public bool IsRepairEnabled { get => _isRepairEnabled;
+        //    set 
+        //    {
+        //        _isRepairEnabled = value;
+        //        OnPropertyChanged(nameof(IsRepairEnabled));
+        //    } }
+
         public ICommand AddCarCommand { get; }
 
         public ICommand RemoveCarCommand { get; }
@@ -78,7 +87,7 @@ namespace UI.ViewModels.Car
             IEnumerable<ICar> cars = null;
             AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), ref cars);
 
-            if(cars != null)
+            if (cars != null)
             {
                 foreach (var car in cars)
                 {
@@ -95,7 +104,10 @@ namespace UI.ViewModels.Car
                 {
                     CarStations.Add(carStation);
                 }
+
+                //IsRepairEnabled = ;
             }
+
         }
 
         private void AddCarAction()
@@ -107,11 +119,12 @@ namespace UI.ViewModels.Car
         private void RepairCarAction()
         {
             //TODO: Add OrderViewModel
+            throw new NotImplementedException();
         }
 
         private void RemoveCarAction()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

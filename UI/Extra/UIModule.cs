@@ -4,8 +4,10 @@ using System.Text;
 using UI.Interfaces;
 using UI.View;
 using UI.View.Car;
+using UI.View.CarStation;
 using UI.View.User;
 using UI.ViewModels.Car;
+using UI.ViewModels.CarStation;
 using UI.ViewModels.User;
 using Unity;
 
@@ -26,6 +28,10 @@ namespace UI.Extra
 
             mapper.RegisterViewModel(typeof(CarViewModel), typeof(CarView));
             mapper.RegisterViewModel(typeof(AddCarViewModel), typeof(AddCarView));
+            
+            mapper.RegisterViewModel(typeof(CarStationViewModel), typeof(CarStationView));
+            mapper.RegisterViewModel(typeof(AddCarStationViewModel), typeof(AddCarStationView));
+
         }
     }
 }

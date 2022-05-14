@@ -26,13 +26,18 @@ namespace Core.Services.Clients
             _client = new CarStationGRPCService.CarStationGRPCServiceClient(channel);
         }
 
-        public async Task<ICarStation> AddCarStation(int idOwner, string name)
+        public async Task<ICarStation> AddCarStation(int idOwner, string name, IDictionary<int, int> types)
         {
             var req = new AddCarStationRequest()
             {
                 IdOwner = idOwner,              
                 Name = name
             };
+            foreach (var item in types)
+            {
+                req.TypeOfWork.Add(item.Key, item.Value);
+            }
+
             var res = await _client.AddCarStationAsync(req);
             return new CarStation_DAL()
             {
@@ -148,7 +153,7 @@ namespace Core.Services.Clients
             return list;
         }
 
-        public async Task<IOrder> StartWork(string name, int idUser, int idCarStation, int idCar)
+        public async Task<IOrder> StartWork(string name, int idUser, int idCarStation, int idCar, IDictionary<int, int> types)
         {
             var req = new StartWorkRequest()
             {
@@ -157,6 +162,12 @@ namespace Core.Services.Clients
                 IdCarStation = idCarStation,
                 IdCar = idCar
             };
+
+            foreach (var item in types)
+            {
+                req.TypeOfWork.Add(item.Key, item.Value);
+            }
+
             var res = await _client.StartWorkAsync(req);
             return new Order_DAL()
             {
