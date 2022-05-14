@@ -103,7 +103,24 @@ namespace UI.ViewModels.Car
             AddCarVisibility = Visibility.Visible;
             //TODO: Raise userControl
             AddCarViewModel = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel));
+            var vm = AddCarViewModel as AddCarViewModel;
+            vm.OnAdded += OnAdded;
+            vm.OnClose += OnClose;
+            //((AddCarViewModel)AddCarViewModel).OnAdded += OnAdded;
+            //((AddCarViewModel)AddCarViewModel).OnClose += OnClose;
         }
+
+        private void OnClose()
+        {
+            AddCarVisibility = Visibility.Collapsed;
+        }
+
+        private void OnAdded(ICar obj)
+        {
+            Cars.Add(obj);
+            AddCarVisibility = Visibility.Collapsed;
+        }
+
         private void RepairCarAction()
         {
             //TODO: Add OrderViewModel
@@ -111,7 +128,10 @@ namespace UI.ViewModels.Car
 
         private void RemoveCarAction()
         {
-            
+            ICar car = null;
+            AsyncRunner.RunAsync(async () => await _carService.DeleteCar(SelectedCar.Id), ref car);
+
+            Cars.Remove(SelectedCar);
         }
     }
 }
