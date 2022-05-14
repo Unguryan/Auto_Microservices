@@ -23,7 +23,7 @@
             <TextBox Height="30" VerticalAlignment="Top" Text="{Binding Model}"/>
         </StackPanel>
        
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Margin="0 10 0 0" Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Height="30" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Add"
                     Command="{Binding AddCarCommand}"/>
             <Button Height="30" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top"

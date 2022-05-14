@@ -27,13 +27,13 @@ namespace Core.EFCore.Wrappers
 
         public async Task<ICar> Add(ICar item)
         {
-            int id = 0;
-            if (_context.Cars.Any())
-            {
-                id = _context.Cars.Select(car => car.Id).Max() + 1;
-            }
+            //int id = 0;
+            //if (_context.Cars.Any())
+            //{
+            //    id = _context.Cars.Select(car => car.Id).Max() + 1;
+            //}
 
-            var newItem = new Car_DAL(id, item);
+            var newItem = new Car_DAL(item);
             _context.Cars.Add(newItem);
             await _context.SaveChangesAsync();
 
@@ -58,7 +58,7 @@ namespace Core.EFCore.Wrappers
 
         public async Task<bool> Put(int id, ICar item)
         {
-            return await Task.Run(() =>
+            return await Task.Run( async () =>
             {
                 var oldItem = _context.Cars.FirstOrDefault(car => car.Id == id);
                 if (oldItem == null)
@@ -68,16 +68,16 @@ namespace Core.EFCore.Wrappers
 
                 _context.Cars.Remove(oldItem);
 
-                var newItem = new Car_DAL(oldItem.Id, item);
-                _context.Cars.Add(newItem);
-                _context.SaveChanges();
+                var newItem = new Car_DAL(item);
+                await _context.Cars.AddAsync(newItem);
+                await _context.SaveChangesAsync();
                 return true;
             });
         }
 
         public async Task<ICar> Remove(int id)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async() =>
             {
                 var oldItem = _context.Cars.FirstOrDefault(car => car.Id == id);
                 if (oldItem == null)
@@ -86,7 +86,7 @@ namespace Core.EFCore.Wrappers
                 }
 
                 _context.Cars.Remove(oldItem);
-
+                await _context.SaveChangesAsync();
                 return oldItem;
             });
         }

@@ -80,7 +80,7 @@ namespace UI.ViewModels.User
             }
 
             var userAuth = LoginUtilities.GetSavedUser();
-            if(userAuth == null || userAuth?.UserName != Username)
+            if(userAuth == null || userAuth?.UserName != Username || userAuth?.Password != password)
             {
                 var res = MessageBox.Show("Save user?", "Save session", MessageBoxButton.YesNo);
 

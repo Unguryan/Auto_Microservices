@@ -1,6 +1,7 @@
 ﻿using Interfaces.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Core.EFCore.Models
@@ -11,9 +12,8 @@ namespace Core.EFCore.Models
         {
         }
 
-        public Car_DAL(int id, ICar source)
+        public Car_DAL(ICar source)
         {
-            Id = id;
             IdUser = source.IdUser;
             Model = source.Model;
         }

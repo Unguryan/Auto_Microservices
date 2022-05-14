@@ -20,19 +20,25 @@
         </DataGrid>
 
         <StackPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Add Car" Height="30" Command="{Binding AddCarCommand}"/>
-                <Button Content="Remove Car" Height="30" Margin="10 0 0 0" Command="{Binding RemoveCarCommand}"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Content="Remove Car" MinWidth="80" Height="30" Margin="10 0"
+                        Command="{Binding RemoveCarCommand}"/>
+
+                <Button Content="Add Car" MinWidth="80" Height="30" 
+                        Command="{Binding AddCarCommand}"/>
+
+                <Button Content="Repair Car" MinWidth="80" Height="30" Margin="10 0 0 0"
+                        Command="{Binding RepairCarCommand}"/>
             </StackPanel>
 
             <Grid Visibility="{Binding AddCarVisibility, Mode=OneWay}">
                 <local:AddCarView DataContext="{Binding AddCarViewModel}"/>
             </Grid>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
                 <ComboBox MinWidth="120" SelectedItem="{Binding SelectedCarStation}" ItemsSource="{Binding CarStations}" DisplayMemberPath="Name"/>
-                <Button Content="Repair Car" Height="30" Margin="10 0 0 0"  Command="{Binding RepairCarCommand}"/>
-            </StackPanel>
+            </StackPanel>-->
         </StackPanel>
         
     </Grid>

@@ -27,14 +27,14 @@ namespace Core.EFCore.Wrappers
 
         public async Task<ICarStation> Add(ICarStation item)
         {
-            int id = 0;
-            if (_context.Cars.Any())
-            {
-                id = _context.Cars.Select(carStations => carStations.Id).Max() + 1;
-            }
+            //int id = 0;
+            //if (_context.Cars.Any())
+            //{
+            //    id = _context.Cars.Select(carStations => carStations.Id).Max() + 1;
+            //}
 
-            var newItem = new CarStation_DAL(id, item);
-            _context.CarStations.Add(newItem);
+            var newItem = new CarStation_DAL(item);
+            await _context.CarStations.AddAsync(newItem);
             await _context.SaveChangesAsync();
 
             return newItem;
@@ -58,7 +58,7 @@ namespace Core.EFCore.Wrappers
 
         public async Task<bool> Put(int id, ICarStation item)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async() =>
             {
                 var oldItem = _context.CarStations.FirstOrDefault(carStations => carStations.Id == id);
                 if (oldItem == null)
@@ -68,16 +68,16 @@ namespace Core.EFCore.Wrappers
 
                 _context.CarStations.Remove(oldItem);
 
-                var newItem = new CarStation_DAL(oldItem.Id, item);
-                _context.CarStations.Add(newItem);
-                _context.SaveChanges();
+                var newItem = new CarStation_DAL(item);
+                await _context.CarStations.AddAsync(newItem);
+                await _context.SaveChangesAsync();
                 return true;
             });
         }
 
         public async Task<ICarStation> Remove(int id)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async() =>
             {
                 var oldItem = _context.CarStations.FirstOrDefault(carStations => carStations.Id == id);
                 if (oldItem == null)
@@ -86,7 +86,7 @@ namespace Core.EFCore.Wrappers
                 }
 
                 _context.CarStations.Remove(oldItem);
-
+                await _context.SaveChangesAsync();
                 return oldItem;
             });
         }

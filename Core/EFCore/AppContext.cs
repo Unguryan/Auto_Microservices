@@ -30,6 +30,39 @@ namespace Core.EFCore
             modelBuilder.Entity<User_DAL>().ToTable("Users");
             modelBuilder.Entity<Order_DAL>().ToTable("Orders");
 
+            //modelBuilder.Entity<Car_DAL>()
+            //.HasMany((b))
+
+            //.WithMany<User_DAL>(b => b.)
+
+            modelBuilder.Entity<Car_DAL>()
+                .HasKey(b => b.Id);
+
+            modelBuilder.Entity<CarStation_DAL>()
+                .HasKey(b => b.Id);
+
+            modelBuilder.Entity<User_DAL>()
+                .HasKey(b => b.Id);
+
+            modelBuilder.Entity<Order_DAL>()
+                .HasKey(b => b.Id);
+
+            //modelBuilder.Entity<Car_DAL>()
+            //    .Property(b => b.Id)
+            //    .UseIdentityColumn();
+
+            //modelBuilder.Entity<CarStation_DAL>()
+            //    .Property(b => b.Id)
+            //    .UseIdentityColumn();
+
+            //modelBuilder.Entity<User_DAL>()
+            //    .Property(b => b.Id)
+            //    .UseIdentityColumn();
+
+            //modelBuilder.Entity<Order_DAL>()
+            //    .Property(b => b.Id)
+            //    .UseIdentityColumn();
+
             modelBuilder.Entity<CarStation_DAL>()
                 .Property(b => b.TypeOfWork)
                 .HasConversion(

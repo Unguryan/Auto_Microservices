@@ -26,6 +26,8 @@ namespace UI.ViewModels.Car
         private readonly IUser _activeUser;
 
         private Visibility _addCarVisibility;
+        private IViewModel addCarViewModel;
+
         //private bool _isRepairEnabled;
 
         public CarViewModel(IServices services)
@@ -41,7 +43,7 @@ namespace UI.ViewModels.Car
 
             Init();
 
-            AddCarViewModel = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel));
+            //AddCarViewModel = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel));
             AddCarVisibility = Visibility.Collapsed;
 
             AddCarCommand = new RelayCommand(() => AddCarAction());
@@ -57,7 +59,15 @@ namespace UI.ViewModels.Car
 
         public ICarStation SelectedCarStation { get; set; }
 
-        public IViewModel AddCarViewModel { get; set; }
+        public IViewModel AddCarViewModel 
+        { 
+            get => addCarViewModel;
+            set 
+            {
+                addCarViewModel = value;
+                OnPropertyChanged(nameof(AddCarViewModel));
+            } 
+        }
 
         public Visibility AddCarVisibility
         {
@@ -114,10 +124,13 @@ namespace UI.ViewModels.Car
         {
             AddCarVisibility = Visibility.Visible;
             //TODO: Raise userControl
-            AddCarViewModel = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel));
-            var vm = AddCarViewModel as AddCarViewModel;
+            var vm = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel)) as AddCarViewModel;
             vm.OnAdded += OnAdded;
             vm.OnClose += OnClose;
+            AddCarViewModel = vm;
+            //var vm = AddCarViewModel as AddCarViewModel;
+            //vm.OnAdded += OnAdded;
+            //vm.OnClose += OnClose;
             //((AddCarViewModel)AddCarViewModel).OnAdded += OnAdded;
             //((AddCarViewModel)AddCarViewModel).OnClose += OnClose;
         }
@@ -125,12 +138,14 @@ namespace UI.ViewModels.Car
         private void OnClose()
         {
             AddCarVisibility = Visibility.Collapsed;
+            ((AddCarViewModel)AddCarViewModel).OnClose -= OnClose;
         }
 
         private void OnAdded(ICar obj)
         {
             Cars.Add(obj);
             AddCarVisibility = Visibility.Collapsed;
+            ((AddCarViewModel)AddCarViewModel).OnAdded -= OnAdded;
         }
 
         private void RepairCarAction()

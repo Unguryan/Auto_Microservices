@@ -1,6 +1,7 @@
 ﻿using Interfaces.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Core.EFCore.Models
@@ -11,9 +12,8 @@ namespace Core.EFCore.Models
         {
         }
 
-        public Order_DAL(int id, IOrder source)
+        public Order_DAL(IOrder source)
         {
-            Id = id;
             Name = source.Name;
             IdStation = source.IdStation;
             IdUser = source.IdUser;

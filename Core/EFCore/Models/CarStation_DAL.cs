@@ -1,6 +1,7 @@
 ﻿using Interfaces.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Core.EFCore.Models
@@ -11,9 +12,8 @@ namespace Core.EFCore.Models
         {
         }
 
-        public CarStation_DAL(int id, ICarStation source)
+        public CarStation_DAL(ICarStation source)
         {
-            Id = id;
             IdOwner = source.IdOwner;
             Name = source.Name;
             TypeOfWork = source.TypeOfWork;
