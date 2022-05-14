@@ -11,7 +11,9 @@
             <RowDefinition MinHeight="30"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" RowHeight="30" ItemsSource="{Binding Cars}" Margin="0 0 0 10" SelectedItem="{Binding SelectedCar}" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="0" RowHeight="30" Margin="0 0 0 10"
+                  ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" 
+                  CanUserAddRows="False" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="200" Binding="{Binding Model}"/>
             </DataGrid.Columns>
@@ -29,7 +31,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
                 <ComboBox MinWidth="120" SelectedItem="{Binding SelectedCarStation}" ItemsSource="{Binding CarStations}" DisplayMemberPath="Name"/>
-                <Button Content="Repair Car" Height="30" Margin="10 0 0 0" Command="{Binding RepairCarCommand}"/>
+                <Button Content="Repair Car" Height="30" Margin="10 0 0 0"  Command="{Binding RepairCarCommand}"/>
             </StackPanel>
         </StackPanel>
         

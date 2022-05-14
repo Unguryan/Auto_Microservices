@@ -11,6 +11,7 @@ using UI.Extra;
 using UI.Extra.Commands.Common;
 using UI.Interfaces;
 using UI.ViewModels.Car;
+using UI.ViewModels.CarStation;
 using UI.ViewModels.Order;
 
 namespace UI.ViewModels.User
@@ -90,7 +91,7 @@ namespace UI.ViewModels.User
 
         private void AddCarStationAction()
         {
-            throw new NotImplementedException();
+            _viewModelAggregator.ChangeActiveVM(typeof(AddCarStationViewModel));
         }
 
     }
