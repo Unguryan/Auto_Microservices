@@ -22,9 +22,15 @@ namespace UI.Extra
             UIModule.RegisterVMs(ViewModelMapper);
 
             ViewModelAggregator.OnChangingActiveUser += OnChangingActiveUser;
+            ViewModelAggregator.OnChangingActiveCarStation += OnChangingActiveCarStation;
 
             //Resolver = new UnityContainer();
             //UIModule.RegisterModules(Resolver);
+        }
+
+        private void OnChangingActiveCarStation(ICarStation carStation)
+        {
+            ActiveCarStation = carStation;
         }
 
         private void OnChangingActiveUser(IUser user)
@@ -45,6 +51,8 @@ namespace UI.Extra
         public IViewModelAggregator ViewModelAggregator { get; }
 
         public IUser ActiveUser { get; set; }
+
+        public ICarStation ActiveCarStation { get; set; }
 
 
         //public IUnityContainer Resolver { get; }

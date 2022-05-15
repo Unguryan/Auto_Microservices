@@ -71,7 +71,7 @@ namespace UI.ViewModels.User
         private void Init()
         {
             IEnumerable<ICarStation> carStations = null;
-            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), ref carStations);
+            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStationByOwnerIdRequest(_activeUser.Id), ref carStations);
 
             if (carStations != null)
             {
@@ -86,7 +86,8 @@ namespace UI.ViewModels.User
 
         private void SwitchToCarStationAction()
         {
-            throw new NotImplementedException();
+            _viewModelAggregator.ChangeActiveCarStation(SelectedCarStation);
+            _viewModelAggregator.ChangeActiveVM(typeof(CarStationViewModel));
         }
 
         private void AddCarStationAction()

@@ -28,5 +28,12 @@ namespace UI.Extra
         {
             OnChangingActiveUser?.Invoke(user);
         }
+
+        public event Action<ICarStation> OnChangingActiveCarStation;
+
+        public void ChangeActiveCarStation(ICarStation carStation)
+        {
+            OnChangingActiveCarStation?.Invoke(carStation);
+        }
     }
 }

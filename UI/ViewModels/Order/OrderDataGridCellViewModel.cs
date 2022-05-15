@@ -20,7 +20,7 @@ namespace UI.ViewModels.Order
 
         public string CarStationName { get; set; }
 
-        //public int IdUser { get; }
+        public string UserName { get; set; }
 
         public string CarName { get; set; }
 

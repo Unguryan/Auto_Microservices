@@ -4,10 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View.CarStation"
+        xmlns:order="clr-namespace:UI.View.Order"
         mc:Ignorable="d"
         xmlns:carStation="clr-namespace:UI.ViewModels.CarStation"
-        d:DataContext="{d:DesignInstance Type=carStation:CarStationViewModel}">
+        d:DataContext="{d:DesignInstance Type=carStation:CarStationViewModel}"
+        d:MinHeight="500"
+        d:MinWidth="700">
     <Grid>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="1000"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="500"/>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <order:OrderCarStationView Grid.Column="0"
+                                   Grid.Row="0"
+                                   DataContext="{Binding OrderCarStationViewModel}">
+            
+        </order:OrderCarStationView>
+
+        <Button Grid.Row="2" Grid.Column="0"
+                VerticalAlignment="Top" HorizontalAlignment="Left"
+                Width="60" Height="30" Content="Back" Margin="10"
+                Command="{Binding BackCommand}" />
+
     </Grid>
 </UserControl>

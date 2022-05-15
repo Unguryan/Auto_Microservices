@@ -56,22 +56,22 @@ namespace Core.EFCore.Wrappers
             });
         }
 
-        public async Task<bool> Put(int id, IOrder item)
+        public async Task<IOrder> Put(int id, IOrder item)
         {
             return await Task.Run(async() =>
             {
                 var oldItem = _context.Orders.FirstOrDefault(order => order.Id == id);
                 if (oldItem == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 _context.Orders.Remove(oldItem);
 
                 var newItem = new Order_DAL(item);
-                await _context.Orders.AddAsync(newItem);
+                var res = await _context.Orders.AddAsync(newItem);
                 await _context.SaveChangesAsync();
-                return true;
+                return res.Entity;
             });
         }
 

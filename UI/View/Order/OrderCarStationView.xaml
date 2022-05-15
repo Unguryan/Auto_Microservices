@@ -9,15 +9,62 @@
         d:DataContext="{d:DesignInstance Type=order:OrderCarStationViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="100"/>
-            <ColumnDefinition MinWidth="100"/>
+            <ColumnDefinition MinWidth="400"/>
+            <ColumnDefinition MinWidth="500"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MinHeight="30"/>
-            <RowDefinition MinHeight="350"/>
-            <RowDefinition/>
-            <RowDefinition MinHeight="30"/>
+            <RowDefinition MinHeight="400"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        
+
+        <DataGrid RowHeight="30" MinWidth="400" Margin="10"
+                  Grid.Row="0" Grid.Column="0"
+                  ItemsSource="{Binding OpenOrders}" SelectedItem="{Binding SelectedOrder}"
+                  CanUserAddRows="False"  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn MinWidth="150" Binding="{Binding Name}" Header="Name"/>
+                <DataGridTextColumn MinWidth="100" Binding="{Binding UserName}" Header="User"/>
+                <DataGridTextColumn MinWidth="100" Binding="{Binding CarName}" Header="Car"/>
+                <DataGridTextColumn MinWidth="60" Binding="{Binding CreatedAt}" Header="Created"/>
+                <DataGridTemplateColumn MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Height="25" Content="Details" Command="{Binding GetDetailsCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid RowHeight="30" MinWidth="500" Margin="10"
+                  Grid.Row="0" Grid.Column="1"
+                  ItemsSource="{Binding ClosedOrders}" 
+                  CanUserAddRows="False"  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn MinWidth="150" Binding="{Binding Name}" Header="Name"/>
+                <DataGridTextColumn MinWidth="100" Binding="{Binding UserName}" Header="User"/>
+                <DataGridTextColumn MinWidth="100" Binding="{Binding CarName}" Header="Car"/>
+                <DataGridTextColumn MinWidth="60" Binding="{Binding CreatedAt}" Header="Created"/>
+                <DataGridTextColumn MinWidth="60" Binding="{Binding Closed}" Header="Closed"/>
+                <DataGridTemplateColumn MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Height="25" Content="Details" Command="{Binding GetDetailsCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Row="2" Grid.Column="0"
+                VerticalAlignment="Top" HorizontalAlignment="Right"
+                Width="100" Height="30" Content="Close Order" Margin="10"
+                Command="{Binding CloseOrderCommand}" />
+
+        <Button Grid.Row="1" Grid.Column="1"
+                Content="Refresh" HorizontalAlignment="Right"
+                MinWidth="80" Height="30" Margin="10"
+                Command="{Binding RefreshCommand}"/>
+
     </Grid>
 </UserControl>

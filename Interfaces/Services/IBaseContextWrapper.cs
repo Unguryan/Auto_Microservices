@@ -15,6 +15,6 @@ namespace Interfaces.Services
 
         Task<T> Remove(int id);
 
-        Task<bool> Put(int id, T item);
+        Task<T> Put(int id, T item);
     }
 }

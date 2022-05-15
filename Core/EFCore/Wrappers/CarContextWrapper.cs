@@ -34,7 +34,7 @@ namespace Core.EFCore.Wrappers
             //}
 
             var newItem = new Car_DAL(item);
-            _context.Cars.Add(newItem);
+            await _context.Cars.AddAsync(newItem);
             await _context.SaveChangesAsync();
 
             return newItem;
@@ -56,22 +56,22 @@ namespace Core.EFCore.Wrappers
             });
         }
 
-        public async Task<bool> Put(int id, ICar item)
+        public async Task<ICar> Put(int id, ICar item)
         {
             return await Task.Run( async () =>
             {
                 var oldItem = _context.Cars.FirstOrDefault(car => car.Id == id);
                 if (oldItem == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 _context.Cars.Remove(oldItem);
 
                 var newItem = new Car_DAL(item);
-                await _context.Cars.AddAsync(newItem);
+                var res = await _context.Cars.AddAsync(newItem);
                 await _context.SaveChangesAsync();
-                return true;
+                return res.Entity;
             });
         }
 

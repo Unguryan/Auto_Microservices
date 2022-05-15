@@ -63,7 +63,7 @@ namespace Order_GrpcService.Services
         {
             var order = await _context.GetById(request.Id);
             order.Closed = DateTime.Now;
-            await _context.Put(order.Id, order);
+            var updatedOrder = await _context.Put(order.Id, order);
             if (order == null)
             {
                 return null;
@@ -71,7 +71,7 @@ namespace Order_GrpcService.Services
 
             var userClient = _clientFactory.GetUserServiceClient();
             
-            await userClient.NotifyUser(order.IdUser, request.Id);
+            await userClient.NotifyUser(order.IdUser, updatedOrder.Id);
 
             var res = new OrderModel()
             {

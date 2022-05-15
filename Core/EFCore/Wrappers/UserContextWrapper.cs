@@ -56,22 +56,22 @@ namespace Core.EFCore.Wrappers
             });
         }
 
-        public async Task<bool> Put(int id, IUser item)
+        public async Task<IUser> Put(int id, IUser item)
         {
             return await Task.Run(async() =>
             {
                 var oldItem = _context.Users.FirstOrDefault(user => user.Id == id);
                 if (oldItem == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 _context.Users.Remove(oldItem);
 
                 var newItem = new User_DAL(item);
-                await _context.Users.AddAsync(newItem);
+                var res = await _context.Users.AddAsync(newItem);
                 await _context.SaveChangesAsync();
-                return true;
+                return res.Entity;
             });
         }
 

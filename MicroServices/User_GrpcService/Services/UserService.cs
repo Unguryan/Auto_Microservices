@@ -148,6 +148,7 @@ namespace User_GrpcService.Services
                 Id = orderModel.Id,
                 IdStation = orderModel.IdStation,
                 IdUser = orderModel.IdUser,
+                IdCar = orderModel.IdCar,
                 Name = orderModel.Name,
                 CreatedAt = orderModel.CreatedAt,
                 Closed = orderModel.Closed,
