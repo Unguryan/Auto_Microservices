@@ -36,7 +36,7 @@ namespace UI.ViewModels.User
             _activeUser = services.ActiveUser;
 
             CarViewModel = _viewModelMapper.GetViewModelByType(typeof(CarViewModel));
-            OrderViewModel = _viewModelMapper.GetViewModelByType(typeof(OrderViewModel));
+            OrderUserViewModel = _viewModelMapper.GetViewModelByType(typeof(OrderUserViewModel));
             CarStations = new ObservableCollection<ICarStation>();
 
             Init();
@@ -47,7 +47,7 @@ namespace UI.ViewModels.User
 
         public IViewModel CarViewModel { get; }
 
-        public IViewModel OrderViewModel { get; }
+        public IViewModel OrderUserViewModel { get; }
 
         public string PreviewText => $"Welcome, {_activeUser.Name}";
 

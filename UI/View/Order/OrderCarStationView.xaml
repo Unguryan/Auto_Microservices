@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="UI.View.Order.OrderCarStationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.View.Order"
+        mc:Ignorable="d"
+        xmlns:order="clr-namespace:UI.ViewModels.Order"
+        d:DataContext="{d:DesignInstance Type=order:OrderCarStationViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="100"/>
+            <ColumnDefinition MinWidth="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="30"/>
+            <RowDefinition MinHeight="350"/>
+            <RowDefinition/>
+            <RowDefinition MinHeight="30"/>
+        </Grid.RowDefinitions>
+        
+    </Grid>
+</UserControl>

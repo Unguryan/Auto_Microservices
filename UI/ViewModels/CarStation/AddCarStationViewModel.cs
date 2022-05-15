@@ -21,9 +21,9 @@ namespace UI.ViewModels.CarStation
 
         private readonly IUser _activeUser;
 
-        private string selectedType;
+        private string _selectedType;
 
-        private int price;
+        private int _price;
         
 
         public AddCarStationViewModel(IServices services)
@@ -57,20 +57,20 @@ namespace UI.ViewModels.CarStation
 
         public string SelectedType
         {
-            get => selectedType;
+            get => _selectedType;
             set
             {
-                selectedType = value;
+                _selectedType = value;
                 OnPropertyChanged(nameof(SelectedType));
             }
         }
 
         public int Price
         { 
-            get => price;
+            get => _price;
             set 
             {
-                price = value;
+                _price = value;
                 OnPropertyChanged(nameof(Price));
             }
         }

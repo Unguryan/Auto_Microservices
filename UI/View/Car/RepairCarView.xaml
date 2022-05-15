@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="UI.View.CarStation.AddCarStationView"
+﻿<UserControl x:Class="UI.View.Car.RepairCarView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UI.View.CarStation"
+        xmlns:local="clr-namespace:UI.View.Car"
         xmlns:conv="clr-namespace:UI.Converters"
-        xmlns:carStation="clr-namespace:UI.ViewModels.CarStation"
-        d:DataContext="{d:DesignInstance Type=carStation:AddCarStationViewModel}"
+        xmlns:car="clr-namespace:UI.ViewModels.Car"
+        d:DataContext="{d:DesignInstance Type=car:RepairCarViewModel}"
         mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -14,39 +14,42 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <!--<Label Content="Add Car Station" FontSize="16"/>-->
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="80"/>
+            <ColumnDefinition/>
             <ColumnDefinition MinWidth="120"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition MinHeight="100"/>
-            <RowDefinition MinHeight="100"/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-
+        
         <Button Grid.Row="0" Grid.Column="0"
                 VerticalAlignment="Top" HorizontalAlignment="Left"
                 Width="60" Height="30" Content="Back" Margin="10"
                 Command="{Binding BackCommand}" />
 
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-            <Label Content="Name" Margin="0 10 0 0"/>
-            <TextBox Height="30" Margin="0 5 0 10" Text="{Binding Name}"/>
+            <Label Content="Car" Margin="0 10 0 0"/>
+            <ComboBox MinWidth="120" Height="30" DisplayMemberPath="Model"
+                      SelectedItem="{Binding SelectedCar}" ItemsSource="{Binding Cars}"/>
 
-            <Label Content="Type of work"/>
-            <StackPanel Orientation="Horizontal">
-                <ComboBox MinWidth="120" Height="30" SelectedItem="{Binding SelectedType}" ItemsSource="{Binding TypesOfWork}"/>
-                <Label Margin="10 0 0 0" Content="Price: "/>
-                <TextBox MinWidth="60" Height="30" Text="{Binding Price, Converter={StaticResource StringToPositiveIntConverter}}" />
+            <Label Content="Car Station" Margin="0 10 0 0"/>
+            <ComboBox MinWidth="120" Height="30" DisplayMemberPath="Name"
+                      SelectedItem="{Binding SelectedCarStation}" ItemsSource="{Binding CarStations}"/>
+            <Label Content="Type of work" Margin="0 10 0 0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <ComboBox MinWidth="120" Height="30"
+                          DisplayMemberPath="FullName"
+                          SelectedItem="{Binding SelectedType}" ItemsSource="{Binding TypesOfWork}">
+                </ComboBox>
                 <Button Content="Add" MinWidth="60" Height="30" Margin="10 0 0 0" Command="{Binding AddTypeCommand}"/>
             </StackPanel>
 
             <DataGrid RowHeight="30" ItemsSource="{Binding DataGridTypes}" Margin="0 10 0 0" CanUserAddRows="False"  AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn MinWidth="150" Binding="{Binding Name}" Header="Name" />
+                    <DataGridTextColumn MinWidth="150" Binding="{Binding Name}" Header="Name"/>
                     <DataGridTextColumn MinWidth="60" Binding="{Binding Price}" Header="Price"/>
                     <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.CellTemplate>
@@ -60,7 +63,8 @@
 
         </StackPanel>
 
-        <Button Content="Add Car Station" Height="30" Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom" Margin="0 0 0 10"
-                Command="{Binding AddCarStationCommand}"/>
+        <Button Content="Repair" Height="30" Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom" Margin="10"
+                Command="{Binding SendToCarStationCommand}"/>
+        
     </Grid>
 </UserControl>

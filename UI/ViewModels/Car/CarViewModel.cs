@@ -26,7 +26,12 @@ namespace UI.ViewModels.Car
         private readonly IUser _activeUser;
 
         private Visibility _addCarVisibility;
-        private IViewModel addCarViewModel;
+
+        private IViewModel _addCarViewModel;
+
+        //private Visibility _repairCarVisibility;
+
+        //private IViewModel _repairCarViewModel;
 
         //private bool _isRepairEnabled;
 
@@ -39,35 +44,36 @@ namespace UI.ViewModels.Car
             _activeUser = services.ActiveUser;
 
             Cars = new ObservableCollection<ICar>();
-            CarStations = new ObservableCollection<ICarStation>();
+            //CarStations = new ObservableCollection<ICarStation>();
 
             Init();
 
-            //AddCarViewModel = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel));
+            var addVM = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel)) as AddCarViewModel;
+            addVM.OnAdded += OnCarAdded;
+            addVM.OnClose += OnCarAddViewClosed;
+            AddCarViewModel = addVM;
             AddCarVisibility = Visibility.Collapsed;
+
+            //var repairVM = _viewModelMapper.GetViewModelByType(typeof(RepairCarViewModel)) as RepairCarViewModel;
+            //repairVM.OnWentToCarStation += OnWentToCarStation;
+            //RepairCarViewModel = repairVM;
+
+            //RepairCarVisibility = Visibility.Collapsed;
 
             AddCarCommand = new RelayCommand(() => AddCarAction());
             RemoveCarCommand = new RelayCommand(() => RemoveCarAction());
-            RepairCarCommand = new RelayCommand(() => RepairCarAction(), (_) => { return CarStations.Any(); });
+            RepairCarCommand = new RelayCommand(() => RepairCarAction(), (_) => { return Cars.Any(); });
         }
+
+        
 
         public ObservableCollection<ICar> Cars { get; }
 
         public ICar SelectedCar { get; set; }
 
-        public ObservableCollection<ICarStation> CarStations { get; }
+        //public ObservableCollection<ICarStation> CarStations { get; }
 
-        public ICarStation SelectedCarStation { get; set; }
-
-        public IViewModel AddCarViewModel 
-        { 
-            get => addCarViewModel;
-            set 
-            {
-                addCarViewModel = value;
-                OnPropertyChanged(nameof(AddCarViewModel));
-            } 
-        }
+        //public ICarStation SelectedCarStation { get; set; }
 
         public Visibility AddCarVisibility
         {
@@ -78,6 +84,36 @@ namespace UI.ViewModels.Car
                 OnPropertyChanged(nameof(AddCarVisibility));
             }
         }
+
+        public IViewModel AddCarViewModel 
+        { 
+            get => _addCarViewModel;
+            set 
+            {
+                _addCarViewModel = value;
+                OnPropertyChanged(nameof(AddCarViewModel));
+            } 
+        }
+
+        //public Visibility RepairCarVisibility
+        //{
+        //    get => _repairCarVisibility;
+        //    set
+        //    {
+        //        _repairCarVisibility = value;
+        //        OnPropertyChanged(nameof(RepairCarVisibility));
+        //    }
+        //}
+
+        //public IViewModel RepairCarViewModel
+        //{
+        //    get => _repairCarViewModel;
+        //    set
+        //    {
+        //        _repairCarViewModel = value;
+        //        OnPropertyChanged(nameof(RepairCarViewModel));
+        //    }
+        //}
 
         //public bool IsRepairEnabled { get => _isRepairEnabled;
         //    set 
@@ -105,29 +141,25 @@ namespace UI.ViewModels.Car
                 }
             }
 
-            IEnumerable<ICarStation> carStations = null;
-            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), ref carStations);
+            //IEnumerable<ICarStation> carStations = null;
+            //AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), ref carStations);
 
-            if (carStations != null)
-            {
-                foreach (var carStation in carStations)
-                {
-                    CarStations.Add(carStation);
-                }
+            //if (carStations != null)
+            //{
+            //    foreach (var carStation in carStations)
+            //    {
+            //        CarStations.Add(carStation);
+            //    }
 
-                //IsRepairEnabled = ;
-            }
-
+            //    //IsRepairEnabled = ;
+            //}
         }
 
         private void AddCarAction()
         {
             AddCarVisibility = Visibility.Visible;
             //TODO: Raise userControl
-            var vm = _viewModelMapper.GetViewModelByType(typeof(AddCarViewModel)) as AddCarViewModel;
-            vm.OnAdded += OnAdded;
-            vm.OnClose += OnClose;
-            AddCarViewModel = vm;
+            
             //var vm = AddCarViewModel as AddCarViewModel;
             //vm.OnAdded += OnAdded;
             //vm.OnClose += OnClose;
@@ -135,23 +167,9 @@ namespace UI.ViewModels.Car
             //((AddCarViewModel)AddCarViewModel).OnClose += OnClose;
         }
 
-        private void OnClose()
-        {
-            AddCarVisibility = Visibility.Collapsed;
-            ((AddCarViewModel)AddCarViewModel).OnClose -= OnClose;
-        }
-
-        private void OnAdded(ICar obj)
-        {
-            Cars.Add(obj);
-            AddCarVisibility = Visibility.Collapsed;
-            ((AddCarViewModel)AddCarViewModel).OnAdded -= OnAdded;
-        }
-
         private void RepairCarAction()
         {
-            //TODO: Add OrderViewModel
-            throw new NotImplementedException();
+            _viewModelAggregator.ChangeActiveVM(typeof(RepairCarViewModel));
         }
 
         private void RemoveCarAction()
@@ -160,6 +178,17 @@ namespace UI.ViewModels.Car
             AsyncRunner.RunAsync(async () => await _carService.DeleteCar(SelectedCar.Id), ref car);
 
             Cars.Remove(SelectedCar);
+        }
+
+        private void OnCarAddViewClosed()
+        {
+            AddCarVisibility = Visibility.Collapsed;
+        }
+
+        private void OnCarAdded(ICar obj)
+        {
+            Cars.Add(obj);
+            AddCarVisibility = Visibility.Collapsed;
         }
     }
 }

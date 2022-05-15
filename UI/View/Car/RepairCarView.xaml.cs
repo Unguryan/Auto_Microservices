@@ -10,14 +10,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace UI.View.Order
+namespace UI.View.Car
 {
     /// <summary>
-    /// Логика взаимодействия для AddOrderView.xaml
+    /// Логика взаимодействия для RepairCarView.xaml
     /// </summary>
-    public partial class AddOrderView : Window
+    public partial class RepairCarView : UserControl
     {
-        public AddOrderView()
+        public RepairCarView()
         {
             InitializeComponent();
         }

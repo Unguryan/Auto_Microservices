@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View"
-        xmlns:userVM="clr-namespace:UI.ViewModels.User"
         mc:Ignorable="d"
+        xmlns:userVM="clr-namespace:UI.ViewModels.User"
+        d:DataContext="{d:DesignInstance Type=userVM:LoginViewModel}"
         d:MinHeight="300"
         d:MinWidth="500">
     <Grid>

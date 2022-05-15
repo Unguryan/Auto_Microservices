@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View.Car"
         mc:Ignorable="d"
+        xmlns:car="clr-namespace:UI.ViewModels.Car"
+        d:DataContext="{d:DesignInstance Type=car:AddCarViewModel}"
         d:MinHeight="300"
         d:MinWidth="500">
     <Grid>

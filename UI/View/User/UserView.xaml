@@ -4,12 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View.User"
+        mc:Ignorable="d"
         xmlns:carView="clr-namespace:UI.View.Car"
-        xmlns:orderView="clr-namespace:UI.View.Order">
+        xmlns:orderView="clr-namespace:UI.View.Order"
+        xmlns:userVM="clr-namespace:UI.ViewModels.User"
+        d:DataContext="{d:DesignInstance Type=userVM:UserViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="100"/>
-            <ColumnDefinition MinWidth="100"/>
+            <ColumnDefinition MinWidth="200"/>
+            <ColumnDefinition MinWidth="700"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="30"/>
@@ -18,11 +21,11 @@
             <RowDefinition MinHeight="30"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                Height="30" FontSize="16"  Content="{Binding PreviewText}"/>
 
-        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Margin="10">
-            <Label Height="30" FontSize="16" Margin="0 0 0 10" Content="Cars"/>
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Margin="10" HorizontalAlignment="Left">
+            <Label Height="30" FontSize="16" Margin="0 0 0 10" Content="Cars" HorizontalAlignment="Left"/>
             <carView:CarView DataContext="{Binding CarViewModel}">
             </carView:CarView>
         </StackPanel>
@@ -38,8 +41,8 @@
 
         <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="10">
             <Label Height="30" FontSize="16" Margin="0 0 0 10" Content="Orders"/>
-            <orderView:OrderView DataContext="{Binding OrderViewModel}">
-            </orderView:OrderView>
+            <orderView:OrderUserView DataContext="{Binding OrderUserViewModel}" >
+            </orderView:OrderUserView>
         </StackPanel>
     </Grid>
 </UserControl>

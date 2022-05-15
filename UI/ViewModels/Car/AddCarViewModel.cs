@@ -13,14 +13,15 @@ namespace UI.ViewModels.Car
 {
     public class AddCarViewModel : BaseViewModel
     {
-        private readonly IUser _activeUser;
         private readonly ICarServiceClient _carService;
 
-        private readonly IViewModelAggregator _viewModelAggregator;
+        private readonly IUser _activeUser;
+
         public AddCarViewModel(IServices services)
         {
-            _activeUser = services.ActiveUser;
             _carService = services.CarServiceClient;
+            _activeUser = services.ActiveUser;
+
             AddCarCommand = new RelayCommand(() => AddCarAction(), (_) => 
             {
                 return !string.IsNullOrEmpty(Model);
@@ -29,7 +30,6 @@ namespace UI.ViewModels.Car
         }
 
         public string Model { get; set; }
-
 
         public ICommand AddCarCommand { get; }
 
@@ -42,7 +42,7 @@ namespace UI.ViewModels.Car
         private void AddCarAction()
         {
             ICar model = null;
-            AsyncRunner.RunAsync(async () => await _carService.AddCar(_activeUser.Id, Model),ref model);
+            AsyncRunner.RunAsync(async () => await _carService.AddCar(_activeUser.Id, Model), ref model);
             OnAdded.Invoke(model);
         }
 

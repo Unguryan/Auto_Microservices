@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View.Car"
+        xmlns:car="clr-namespace:UI.ViewModels.Car"
+        d:DataContext="{d:DesignInstance Type=car:CarViewModel}"
         mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,7 +17,7 @@
                   ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" 
                   CanUserAddRows="False" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="200" Binding="{Binding Model}"/>
+                <DataGridTextColumn MinWidth="100" Binding="{Binding Model}" Header="Model"/>
             </DataGrid.Columns>
         </DataGrid>
 

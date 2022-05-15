@@ -50,6 +50,7 @@ namespace Core.Services.Clients
                 Name = res.Name,
                 IdStation = res.IdStation,
                 IdUser = res.IdUser,
+                IdCar = res.IdCar,
                 CreatedAt = DateTime.Parse(res.CreatedAt),
                 Closed = DateTime.Parse(res.Closed),
                 CompletedWork = res.CompletedWork
@@ -70,6 +71,7 @@ namespace Core.Services.Clients
                 Name = res.Name,
                 IdStation = res.IdStation,
                 IdUser = res.IdUser,
+                IdCar = res.IdCar,
                 CreatedAt = DateTime.Parse(res.CreatedAt),
                 Closed = DateTime.Parse(res.Closed),
                 CompletedWork = res.CompletedWork
@@ -89,6 +91,7 @@ namespace Core.Services.Clients
                 Name = res.Name,
                 IdStation = res.IdStation,
                 IdUser = res.IdUser,
+                IdCar = res.IdCar,
                 CreatedAt = DateTime.Parse(res.CreatedAt),
                 Closed = DateTime.Parse(res.Closed),
                 CompletedWork = res.CompletedWork
@@ -108,6 +111,7 @@ namespace Core.Services.Clients
                 Name = res.Name,
                 IdStation = res.IdStation,
                 IdUser = res.IdUser,
+                IdCar = res.IdCar,
                 CreatedAt = DateTime.Parse(res.CreatedAt),
                 Closed = DateTime.Parse(res.Closed),
                 CompletedWork = res.CompletedWork
@@ -131,6 +135,7 @@ namespace Core.Services.Clients
                     Name = data.Name,
                     IdStation = data.IdStation,
                     IdUser = data.IdUser,
+                    IdCar = data.IdCar,
                     CreatedAt = DateTime.Parse(data.CreatedAt),
                     Closed = DateTime.Parse(data.Closed),
                     CompletedWork = data.CompletedWork
@@ -159,6 +164,7 @@ namespace Core.Services.Clients
                     Name = data.Name,
                     IdStation = data.IdStation,
                     IdUser = data.IdUser,
+                    IdCar = data.IdCar,
                     CreatedAt = DateTime.Parse(data.CreatedAt),
                     Closed = DateTime.Parse(data.Closed),
                     CompletedWork = data.CompletedWork
@@ -187,6 +193,7 @@ namespace Core.Services.Clients
                     Name = data.Name,
                     IdStation = data.IdStation,
                     IdUser = data.IdUser,
+                    IdCar = data.IdCar,
                     CreatedAt = DateTime.Parse(data.CreatedAt),
                     Closed = DateTime.Parse(data.Closed),
                     CompletedWork = data.CompletedWork
@@ -215,6 +222,7 @@ namespace Core.Services.Clients
                     Name = data.Name,
                     IdStation = data.IdStation,
                     IdUser = data.IdUser,
+                    IdCar = data.IdCar,
                     CreatedAt = DateTime.Parse(data.CreatedAt),
                     Closed = DateTime.Parse(data.Closed),
                     CompletedWork = data.CompletedWork

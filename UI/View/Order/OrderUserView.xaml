@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="UI.View.Order.OrderUserView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.View.Order"
+        xmlns:vw="clr-namespace:UI.ViewModels.Order"
+        d:DataContext="{d:DesignInstance Type=vw:OrderUserViewModel}"
+        mc:Ignorable="d">
+    <Grid MinWidth="500">
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="100"/>
+        </Grid.ColumnDefinitions>-->
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="300"/>
+            <RowDefinition MinHeight="30"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+
+            <DataGrid RowHeight="30" MinWidth="500" ItemsSource="{Binding Orders}" Margin="0 10 0 0" CanUserAddRows="False"  AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn MinWidth="150" Binding="{Binding Name}" Header="Name"/>
+                    <DataGridTextColumn MinWidth="100" Binding="{Binding CarStationName}" Header="Car Station"/>
+                    <DataGridTextColumn MinWidth="100" Binding="{Binding CarName}" Header="Car"/>
+                    <DataGridTextColumn MinWidth="60" Binding="{Binding CreatedAt}" Header="Created"/>
+                    <DataGridTextColumn MinWidth="60" Binding="{Binding Closed}" Header="Closed"/>
+                    <DataGridTemplateColumn MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Height="25" Content="Details" Command="{Binding GetDetailsCommand}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <Button Grid.Row="1" Content="Refresh" HorizontalAlignment="Right"
+                MinWidth="80" Height="30" Margin="10"
+                Command="{Binding RefreshCommand}"/>
+
+
+    </Grid>
+</UserControl>

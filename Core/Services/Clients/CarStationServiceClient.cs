@@ -39,12 +39,19 @@ namespace Core.Services.Clients
             }
 
             var res = await _client.AddCarStationAsync(req);
-            return new CarStation_DAL()
+            var returnValue = new CarStation_DAL()
             {
                 Id = res.Id,
                 IdOwner = res.IdOwner,
                 Name = res.Name
             };
+
+            foreach (var item in res.TypeOfWork)
+            {
+                returnValue.TypeOfWork.Add((WorkType)item.Key, item.Value);
+            }
+
+            return returnValue;
         }
 
         public async Task<IOrder> CloseWork(int idOrder)
@@ -73,12 +80,19 @@ namespace Core.Services.Clients
                 Id = id
             };
             var res = await _client.DeleteCarStationAsync(req);
-            return new CarStation_DAL()
+            var returnValue = new CarStation_DAL()
             {
                 Id = res.Id,
                 IdOwner = res.IdOwner,
                 Name = res.Name
             };
+
+            foreach (var item in res.TypeOfWork)
+            {
+                returnValue.TypeOfWork.Add((WorkType)item.Key, item.Value);
+            }
+
+            return returnValue;
         }
 
         public async Task<ICarStation> GetCarStationById(int id)
@@ -88,12 +102,19 @@ namespace Core.Services.Clients
                 Id = id
             };
             var res = await _client.GetCarStationByIdAsync(req);
-            return new CarStation_DAL()
+            var returnValue = new CarStation_DAL()
             {
                 Id = res.Id,
                 IdOwner = res.IdOwner,
                 Name = res.Name
             };
+
+            foreach (var item in res.TypeOfWork)
+            {
+                returnValue.TypeOfWork.Add((WorkType)item.Key, item.Value);
+            }
+
+            return returnValue;
         }
 
         public async Task<IEnumerable<ICarStation>> GetCarStationByOwnerIdRequest(int id)
@@ -110,10 +131,16 @@ namespace Core.Services.Clients
             {
                 var temp = new CarStation_DAL()
                 {
-                Id = data.Id,
-                IdOwner = data.IdOwner,
-                Name = data.Name
+                    Id = data.Id,
+                    IdOwner = data.IdOwner,
+                    Name = data.Name
                 };
+
+                foreach (var item in data.TypeOfWork)
+                {
+                    temp.TypeOfWork.Add((WorkType)item.Key, item.Value);
+                }
+
                 list.Add(temp);
             }
             return list;
@@ -146,8 +173,15 @@ namespace Core.Services.Clients
                 {
                     Id = data.Id,
                     IdOwner = data.IdOwner,
-                    Name = data.Name
+                    Name = data.Name,
+                    TypeOfWork = new Dictionary<WorkType, int>()
                 };
+
+                foreach (var item in data.TypeOfWork)
+                {
+                    temp.TypeOfWork.Add((WorkType)item.Key, item.Value);
+                }
+
                 list.Add(temp);
             }
             return list;
@@ -174,6 +208,7 @@ namespace Core.Services.Clients
                 Id = res.Id,
                 Name = res.Name,
                 IdStation = res.IdStation,
+                IdCar = res.IdCar,
                 IdUser = res.IdUser,
                 CreatedAt = DateTime.Parse(res.CreatedAt),
                 Closed = DateTime.Parse(res.Closed),

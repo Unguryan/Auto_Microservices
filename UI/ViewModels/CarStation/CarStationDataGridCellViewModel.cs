@@ -12,6 +12,8 @@ namespace UI.ViewModels.CarStation
 
         public string Price { get; set; }
 
+        public string FullName => $"{Name} - {Price}";
+
         public ICommand RemoveSelectedTypeCommand { get; }
 
         public event Action<CarStationDataGridCellViewModel> RemoveCellEvent;

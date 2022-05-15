@@ -17,6 +17,7 @@ namespace Core.EFCore.Models
             Name = source.Name;
             IdStation = source.IdStation;
             IdUser = source.IdUser;
+            IdCar = source.IdCar;
             CreatedAt = source.CreatedAt;
             Closed = source.Closed;
             CompletedWork = source.CompletedWork;
