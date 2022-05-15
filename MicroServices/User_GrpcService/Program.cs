@@ -24,7 +24,7 @@ namespace User_GrpcService
                     context.Database.EnsureCreated();
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch 
                 {
                     //var logger = services.GetRequiredService<ILogger<Program>>();
                     //logger.LogError(ex, "An error occurred while seeding the database.");
