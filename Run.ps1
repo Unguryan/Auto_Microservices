@@ -1,9 +1,19 @@
-Start-Process -FilePath 'dotnet' -WorkingDirectory 'D:\repos\Auto_Microservices\UI' -ArgumentList 'run --debug'
+$path = Get-Location
 
-Start-Process -FilePath 'dotnet' -WorkingDirectory 'D:\repos\Auto_Microservices\MicroServices\Car_GrpcService' -ArgumentList 'run --debug'
+$pathUI = "$path" + "\UI"
+Start-Process -FilePath 'dotnet' -WorkingDirectory "$pathUI" -ArgumentList 'run --debug'
 
-Start-Process -FilePath 'dotnet' -WorkingDirectory 'D:\repos\Auto_Microservices\MicroServices\CarStation_GrpcService' -ArgumentList 'run --debug'
+$pathCar = "$path" + "\MicroServices\Car_GrpcService"
+Start-Process -FilePath 'dotnet' -WorkingDirectory "$pathCar" -ArgumentList 'run --debug'
 
-Start-Process -FilePath 'dotnet' -WorkingDirectory 'D:\repos\Auto_Microservices\MicroServices\Order_GrpcService' -ArgumentList 'run --debug'
+$pathCarStation = "$path" + "\MicroServices\CarStation_GrpcService"
+Start-Process -FilePath 'dotnet' -WorkingDirectory "$pathCarStation" -ArgumentList 'run --debug'
 
-Start-Process -FilePath 'dotnet' -WorkingDirectory 'D:\repos\Auto_Microservices\MicroServices\User_GrpcService' -ArgumentList 'run --debug'
+$pathOrder = "$path" + "\MicroServices\Order_GrpcService"
+Start-Process -FilePath 'dotnet' -WorkingDirectory "$pathOrder" -ArgumentList 'run --debug'
+
+$pathUser = "$path" + "\MicroServices\User_GrpcService"
+Start-Process -FilePath 'dotnet' -WorkingDirectory "$pathUser" -ArgumentList 'run --debug'
+
+
+

@@ -13,6 +13,7 @@ namespace UI.ViewModels
         private IViewModel _activeViewModel;
 
         private IServices _services;
+
         private UserControl activeView;
 
         public MainViewModel(IServices services)
@@ -29,6 +30,7 @@ namespace UI.ViewModels
             }
             set
             {
+                //TODO Add Dispose for VM
                 _activeViewModel = value;
                 OnPropertyChanged(nameof(ActiveViewModel));
                 ActiveView = _services.ViewModelMapper.GetViewByViewModelType(_activeViewModel.GetType());
