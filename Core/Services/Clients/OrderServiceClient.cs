@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Services.Clients
@@ -205,6 +206,9 @@ namespace Core.Services.Clients
 
         public async Task<IEnumerable<IOrder>> GetOrdersByUserId(int id)
         {
+            //Async does not work
+            Thread.Sleep(10000);
+
             var req = new GetOrderByIdRequest()
             {
                 Id = id
