@@ -41,8 +41,11 @@ namespace UI.ViewModels.Car
 
         private void AddCarAction()
         {
-            ICar model = null;
-            AsyncRunner.RunAsync(async () => await _carService.AddCar(_activeUser.Id, Model), ref model);
+            AsyncRunner.RunAsync(async () => await _carService.AddCar(_activeUser.Id, Model), AddCarCallBack);
+        }
+
+        private void AddCarCallBack(ICar model)
+        {
             OnAdded.Invoke(model);
         }
 

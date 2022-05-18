@@ -4,6 +4,7 @@ using Interfaces.Services.Clients;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Threading;
 using UI.Interfaces;
 using Unity;
 
@@ -15,6 +16,8 @@ namespace UI.Extra
 
         public Services()
         {
+            UIDispatcher = new WpfDispatch(Dispatcher.CurrentDispatcher);
+
             _clientFactory = new ClientFactory();
             ViewModelMapper = new ViewModelMapper(this);
             ViewModelAggregator = new ViewModelAggregator();
@@ -53,6 +56,8 @@ namespace UI.Extra
         public IUser ActiveUser { get; set; }
 
         public ICarStation ActiveCarStation { get; set; }
+
+        public IDispatch UIDispatcher { get; }
 
 
         //public IUnityContainer Resolver { get; }

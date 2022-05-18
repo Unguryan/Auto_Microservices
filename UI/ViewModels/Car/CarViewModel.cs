@@ -25,6 +25,8 @@ namespace UI.ViewModels.Car
 
         private readonly IUser _activeUser;
 
+        private readonly IDispatch _dispatch;
+
         private Visibility _addCarVisibility;
 
         private IViewModel _addCarViewModel;
@@ -42,6 +44,7 @@ namespace UI.ViewModels.Car
             _viewModelAggregator = services.ViewModelAggregator;
             _viewModelMapper = services.ViewModelMapper;
             _activeUser = services.ActiveUser;
+            _dispatch = services.UIDispatcher;
 
             Cars = new ObservableCollection<ICar>();
             //CarStations = new ObservableCollection<ICarStation>();
@@ -130,16 +133,10 @@ namespace UI.ViewModels.Car
 
         private void Init()
         {
-            IEnumerable<ICar> cars = null;
-            AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), ref cars);
+            //IEnumerable<ICar> cars = null;
+            AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), CallBackGetCars);
 
-            if (cars != null)
-            {
-                foreach (var car in cars)
-                {
-                    Cars.Add(car);
-                }
-            }
+           
 
             //IEnumerable<ICarStation> carStations = null;
             //AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), ref carStations);
@@ -153,6 +150,29 @@ namespace UI.ViewModels.Car
 
             //    //IsRepairEnabled = ;
             //}
+        }
+
+        private void CallBackGetCars(IEnumerable<ICar> cars)
+        {
+
+            if (cars != null)
+            {
+                foreach (var car in cars)
+                {
+                    Cars.Add(car);
+                }
+            }
+
+            //_dispatch.Invoke(() =>
+            //{
+            //    if (cars != null)
+            //    {
+            //        foreach (var car in cars)
+            //        {
+            //            Cars.Add(car);
+            //        }
+            //    }
+            //});
         }
 
         private void AddCarAction()
@@ -174,10 +194,17 @@ namespace UI.ViewModels.Car
 
         private void RemoveCarAction()
         {
-            ICar car = null;
-            AsyncRunner.RunAsync(async () => await _carService.DeleteCar(SelectedCar.Id), ref car);
+            AsyncRunner.RunAsync(async () => await _carService.DeleteCar(SelectedCar.Id), CallBackDeleteCar);
 
             Cars.Remove(SelectedCar);
+        }
+
+        private void CallBackDeleteCar(ICar obj)
+        {
+            _dispatch.Invoke(() =>
+            {
+                MessageBox.Show($"Car was removed: {obj.Model}");
+            });
         }
 
         private void OnCarAddViewClosed()

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using UI.Extra;
 using UI.Extra.Commands.Common;
@@ -99,18 +100,23 @@ namespace UI.ViewModels.Car
 
         private void Init()
         {
-            IEnumerable<ICar> cars = null;
-            AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), ref cars);
-            foreach (var item in cars)
-            {
-                Cars.Add(item);
-            }
+            AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), CallBackGetCars);
+            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), CallBackGetCarStations);
+        }
 
-            IEnumerable<ICarStation> carStations = null;
-            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), ref carStations);
+        private void CallBackGetCarStations(IEnumerable<ICarStation> carStations)
+        {
             foreach (var item in carStations)
             {
                 CarStations.Add(item);
+            }
+        }
+
+        private void CallBackGetCars(IEnumerable<ICar> cars)
+        {
+            foreach (var item in cars)
+            {
+                Cars.Add(item);
             }
         }
 
@@ -158,12 +164,16 @@ namespace UI.ViewModels.Car
 
             var name = $"{_activeUser.Name} - {SelectedCar.Model}";
 
-            IOrder order = null;
             AsyncRunner.RunAsync(async () => await _carStationService
             .StartWork(name, _activeUser.Id, SelectedCarStation.Id, SelectedCar.Id, types),
-            ref order);
+            CallBackStartWork);
 
             //OnWentToCarStation.Invoke(order);
+        }
+
+        private void CallBackStartWork(IOrder obj)
+        {
+            MessageBox.Show($"Work Started: {obj.Name}");
             _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
         }
 

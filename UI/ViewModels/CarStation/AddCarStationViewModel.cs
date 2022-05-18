@@ -20,7 +20,7 @@ namespace UI.ViewModels.CarStation
         private readonly IViewModelAggregator _viewModelAggregator;
 
         private readonly IUser _activeUser;
-
+        private readonly IDispatch _dispatch;
         private string _selectedType;
 
         private int _price;
@@ -31,6 +31,7 @@ namespace UI.ViewModels.CarStation
             _carStationService = services.CarStationServiceClient;
             _viewModelAggregator = services.ViewModelAggregator;
             _activeUser = services.ActiveUser;
+            _dispatch = services.UIDispatcher;
 
             TypesOfWork = new ObservableCollection<string>();
             DataGridTypes = new ObservableCollection<CarStationDataGridCellViewModel>();
@@ -109,9 +110,13 @@ namespace UI.ViewModels.CarStation
                 typeOfWork.Add((int)key, int.Parse(type.Price));
             }
 
-            ICarStation carStation = null;
-            AsyncRunner.RunAsync(async () => await _carStationService.AddCarStation(_activeUser.Id, Name, typeOfWork), ref carStation);
+            //ICarStation carStation = null;
+            AsyncRunner.RunAsync(async () => await _carStationService.AddCarStation(_activeUser.Id, Name, typeOfWork), CallBackAddCarStation);
 
+        }
+
+        private void CallBackAddCarStation(ICarStation obj)
+        {
             _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
         }
 

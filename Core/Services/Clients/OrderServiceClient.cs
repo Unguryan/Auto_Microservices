@@ -34,6 +34,7 @@ namespace Core.Services.Clients
                                            string createdAt, 
                                            IDictionary<int, int> completedWork)
         {
+            Thread.Sleep(1000);
             var req = new AddOrderRequest()
             {
                 Name = name,
@@ -61,6 +62,7 @@ namespace Core.Services.Clients
 
         public async Task<IOrder> CloseOrder(int id)
         {
+            Thread.Sleep(1000);
             var req = new CloseOrderRequest()
             {
                 Id = id
@@ -81,6 +83,7 @@ namespace Core.Services.Clients
 
         public async Task<IOrder> DeleteOrder(int id)
         {
+            Thread.Sleep(1000);
             var req = new DeleteOrderRequest()
             {
                 Id = id
@@ -101,6 +104,7 @@ namespace Core.Services.Clients
 
         public async Task<IOrder> GetOrderById(int id)
         {
+            Thread.Sleep(1000);
             var req = new GetOrderByIdRequest()
             {
                 Id = id
@@ -121,6 +125,7 @@ namespace Core.Services.Clients
 
         public async Task<IEnumerable<IOrder>> GetOrders()
         {
+            Thread.Sleep(1000);
             var req = new GetOrdersRequest()
             {
             };
@@ -128,26 +133,30 @@ namespace Core.Services.Clients
 
             var list = new List<IOrder>();
 
-            await foreach (var data in res.ResponseStream.ReadAllAsync())
+            while (await res.ResponseStream.MoveNext())
             {
+                var current = res.ResponseStream.Current;
                 var temp = new Order_DAL()
                 {
-                    Id = data.Id,
-                    Name = data.Name,
-                    IdStation = data.IdStation,
-                    IdUser = data.IdUser,
-                    IdCar = data.IdCar,
-                    CreatedAt = DateTime.Parse(data.CreatedAt),
-                    Closed = DateTime.Parse(data.Closed),
-                    CompletedWork = data.CompletedWork
+                    Id = current.Id,
+                    Name = current.Name,
+                    IdStation = current.IdStation,
+                    IdUser = current.IdUser,
+                    IdCar = current.IdCar,
+                    CreatedAt = DateTime.Parse(current.CreatedAt),
+                    Closed = DateTime.Parse(current.Closed),
+                    CompletedWork = current.CompletedWork
                 };
                 list.Add(temp);
             }
+
+            res.Dispose();
             return list;
         }
 
         public async Task<IEnumerable<IOrder>> GetOrdersByCarId(int id)
         {
+            Thread.Sleep(1000);
             var req = new GetOrderByIdRequest()
             {
                 Id = id
@@ -156,27 +165,29 @@ namespace Core.Services.Clients
 
             using var res = _client.GetOrdersByCarId(req);
 
-
-            await foreach (var data in res.ResponseStream.ReadAllAsync())
+            while (await res.ResponseStream.MoveNext())
             {
+                var current = res.ResponseStream.Current;
                 var temp = new Order_DAL()
                 {
-                    Id = data.Id,
-                    Name = data.Name,
-                    IdStation = data.IdStation,
-                    IdUser = data.IdUser,
-                    IdCar = data.IdCar,
-                    CreatedAt = DateTime.Parse(data.CreatedAt),
-                    Closed = DateTime.Parse(data.Closed),
-                    CompletedWork = data.CompletedWork
+                    Id = current.Id,
+                    Name = current.Name,
+                    IdStation = current.IdStation,
+                    IdUser = current.IdUser,
+                    IdCar = current.IdCar,
+                    CreatedAt = DateTime.Parse(current.CreatedAt),
+                    Closed = DateTime.Parse(current.Closed),
+                    CompletedWork = current.CompletedWork
                 };
                 list.Add(temp);
             }
+            res.Dispose();
             return list;
         }
 
         public async Task<IEnumerable<IOrder>> GetOrdersByOrderStationId(int id)
         {
+            Thread.Sleep(1000);
             var req = new GetOrderByIdRequest()
             {
                 Id = id
@@ -184,30 +195,48 @@ namespace Core.Services.Clients
             var list = new List<IOrder>();
 
             using var res = _client.GetOrdersByOrderStationId(req);
-
-
-            await foreach (var data in res.ResponseStream.ReadAllAsync())
+            while (await res.ResponseStream.MoveNext())
             {
+                var current = res.ResponseStream.Current;
                 var temp = new Order_DAL()
                 {
-                    Id = data.Id,
-                    Name = data.Name,
-                    IdStation = data.IdStation,
-                    IdUser = data.IdUser,
-                    IdCar = data.IdCar,
-                    CreatedAt = DateTime.Parse(data.CreatedAt),
-                    Closed = DateTime.Parse(data.Closed),
-                    CompletedWork = data.CompletedWork
+                    Id = current.Id,
+                    Name = current.Name,
+                    IdStation = current.IdStation,
+                    IdUser = current.IdUser,
+                    IdCar = current.IdCar,
+                    CreatedAt = DateTime.Parse(current.CreatedAt),
+                    Closed = DateTime.Parse(current.Closed),
+                    CompletedWork = current.CompletedWork
                 };
                 list.Add(temp);
             }
+
+            //using var res = _client.GetOrdersByOrderStationId(req);
+            //await foreach (var data in res.ResponseStream.ReadAllAsync())
+            //{
+            //    var temp = new Order_DAL()
+            //    {
+            //        Id = data.Id,
+            //        Name = data.Name,
+            //        IdStation = data.IdStation,
+            //        IdUser = data.IdUser,
+            //        IdCar = data.IdCar,
+            //        CreatedAt = DateTime.Parse(data.CreatedAt),
+            //        Closed = DateTime.Parse(data.Closed),
+            //        CompletedWork = data.CompletedWork
+            //    };
+            //    list.Add(temp);
+            //}
+
+            res.Dispose();
             return list;
         }
 
         public async Task<IEnumerable<IOrder>> GetOrdersByUserId(int id)
         {
             //Async does not work
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
 
             var req = new GetOrderByIdRequest()
             {
@@ -217,22 +246,24 @@ namespace Core.Services.Clients
 
             using var res = _client.GetOrdersByUserId(req);
 
-
-            await foreach (var data in res.ResponseStream.ReadAllAsync())
+            while (await res.ResponseStream.MoveNext())
             {
+                var current = res.ResponseStream.Current;
                 var temp = new Order_DAL()
                 {
-                    Id = data.Id,
-                    Name = data.Name,
-                    IdStation = data.IdStation,
-                    IdUser = data.IdUser,
-                    IdCar = data.IdCar,
-                    CreatedAt = DateTime.Parse(data.CreatedAt),
-                    Closed = DateTime.Parse(data.Closed),
-                    CompletedWork = data.CompletedWork
+                    Id = current.Id,
+                    Name = current.Name,
+                    IdStation = current.IdStation,
+                    IdUser = current.IdUser,
+                    IdCar = current.IdCar,
+                    CreatedAt = DateTime.Parse(current.CreatedAt),
+                    Closed = DateTime.Parse(current.Closed),
+                    CompletedWork = current.CompletedWork
                 };
                 list.Add(temp);
             }
+
+            res.Dispose();
             return list;
         }
     }

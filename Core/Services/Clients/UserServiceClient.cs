@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Services.Clients
@@ -28,6 +29,7 @@ namespace Core.Services.Clients
 
         public async Task<IUser> AuthUser(string userName, string password)
         {
+            Thread.Sleep(1000);
             var req = new AuthUserRequest()
             {
                 UserName = userName,
@@ -61,6 +63,7 @@ namespace Core.Services.Clients
 
         public async Task<IUser> GetUserById(int id)
         {
+            Thread.Sleep(1000);
             var req = new GetUserByIdRequest()
             {
                 Id = id
@@ -76,6 +79,7 @@ namespace Core.Services.Clients
 
         public async Task<IEnumerable<IUser>> GetUsers()
         {
+            Thread.Sleep(1000);
             var req = new GetUsersRequest()
             {
             };
@@ -83,21 +87,36 @@ namespace Core.Services.Clients
 
             var list = new List<IUser>();
 
-            await foreach (var data in res.ResponseStream.ReadAllAsync())
+            while (res.ResponseStream.MoveNext().Result)
             {
+                var current = res.ResponseStream.Current;
                 var temp = new User_DAL()
                 {
-                    Id = data.Id,
-                    Name = data.Name,
-                    Phone = data.Phone
+                    Id = current.Id,
+                    Name = current.Name,
+                    Phone = current.Phone
                 };
                 list.Add(temp);
             }
+
+            //await foreach (var data in res.ResponseStream.ReadAllAsync())
+            //{
+            //    var temp = new User_DAL()
+            //    {
+            //        Id = data.Id,
+            //        Name = data.Name,
+            //        Phone = data.Phone
+            //    };
+            //    list.Add(temp);
+            //}
+
+            res.Dispose();
             return list;
         }
 
         public async Task NotifyUser(int userId, int orderId)
         {
+            Thread.Sleep(1000);
             var req = new NotifyUserRequest()
             {
                 UserId = userId,
@@ -108,6 +127,7 @@ namespace Core.Services.Clients
 
         public async Task<IUser> RegUser(string userName, string password, string name, string phone)
         {
+            Thread.Sleep(1000);
             var req = new RegUserRequest()
             {
                 UserName = userName,

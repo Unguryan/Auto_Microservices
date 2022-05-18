@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using UI.Extra;
 using UI.Interfaces;
 using UI.ViewModels.User;
@@ -33,7 +34,13 @@ namespace UI.ViewModels
                 //TODO Add Dispose for VM
                 _activeViewModel = value;
                 OnPropertyChanged(nameof(ActiveViewModel));
-                ActiveView = _services.ViewModelMapper.GetViewByViewModelType(_activeViewModel.GetType());
+
+                _services.UIDispatcher.Invoke(() =>
+                {
+                    ActiveView = _services.ViewModelMapper.GetViewByViewModelType(_activeViewModel.GetType());
+                });
+
+                //ActiveView = _services.ViewModelMapper.GetViewByViewModelType(_activeViewModel.GetType());
                 //RaisePropertyChanged
             }
         }

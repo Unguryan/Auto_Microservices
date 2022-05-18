@@ -71,28 +71,11 @@ namespace UI.ViewModels.User
             //_userService.AuthUser(Username, password).RunAsync();
             //Task.Run(async () => user = await _userService.AuthUser(Username, password)).Wait();
 
-            IUser user = null;
-            AsyncRunner.RunAsync(async () => await _userService.AuthUser(Username, password), ref user);
+            //IUser user = null;
+            //AsyncRunner.RunAsync(async () => await _userService.AuthUser(Username, password), ref user);
 
-            if (user == null)
-            {
-                MessageBox.Show("Error");
-            }
+            AsyncRunner.RunAsync(async () => await _userService.AuthUser(Username, password), CallBackAuthUser);
 
-            var userAuth = LoginUtilities.GetSavedUser();
-            if(userAuth == null || userAuth?.UserName != Username || userAuth?.Password != password)
-            {
-                var res = MessageBox.Show("Save user?", "Save session", MessageBoxButton.YesNo);
-
-                if (res == MessageBoxResult.Yes)
-                {
-                    LoginUtilities.SaveUser(new AuthUserUI(Username, password));
-                    MessageBox.Show("Saved");
-                }
-            }
-
-            _viewModelAggregator.ChangeActiveUser(user);
-            _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
             //MessageBox.Show("MAIN!");
         }
 
@@ -129,43 +112,115 @@ namespace UI.ViewModels.User
 
         }
 
+        //private void GetLastSavedUser()
+        //{
+        //    var userAuth = LoginUtilities.GetSavedUser();
+        //    if(userAuth == null)
+        //    {
+        //        return;
+        //    }
+
+        //    var res = MessageBox.Show("Log in with last saved user?", "Last session", MessageBoxButton.YesNo);
+
+        //    if(res == MessageBoxResult.Yes)
+        //    {
+        //        IUser user = null;
+        //        AsyncRunner.RunAsync(async () => await _userService.AuthUser(userAuth.UserName, userAuth.Password), ref user);
+
+        //        if (user == null)
+        //        {
+        //            MessageBox.Show("Error");
+        //            return;
+        //        }
+
+        //        //MainViewModel main = new MainViewModel();
+        //        //MainView view = new MainView();
+        //        //view.DataContext = main;
+        //        //view.Show();
+
+        //        //_closeWindow.Invoke();
+        //        _viewModelAggregator.ChangeActiveUser(user);
+        //        _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
+        //    }
+        //    else
+        //    {
+        //        Username = string.Empty;
+        //        if(_passwordControl != null)
+        //            _passwordControl.Password = string.Empty;
+        //        //Password = string.Empty;
+        //    }
+        //}
+
         private void GetLastSavedUser()
         {
             var userAuth = LoginUtilities.GetSavedUser();
-            if(userAuth == null)
+            if (userAuth == null)
             {
                 return;
             }
 
             var res = MessageBox.Show("Log in with last saved user?", "Last session", MessageBoxButton.YesNo);
 
-            if(res == MessageBoxResult.Yes)
+            if (res == MessageBoxResult.Yes)
             {
-                IUser user = null;
-                AsyncRunner.RunAsync(async () => await _userService.AuthUser(userAuth.UserName, userAuth.Password), ref user);
-                
-                if (user == null)
-                {
-                    MessageBox.Show("Error");
-                    return;
-                }
+                //IUser user = null;
+                //AsyncRunner.RunAsync(async () => await _userService.AuthUser(userAuth.UserName, userAuth.Password), ref user);
 
-                //MainViewModel main = new MainViewModel();
-                //MainView view = new MainView();
-                //view.DataContext = main;
-                //view.Show();
+                AsyncRunner.RunAsync(async () => await _userService.AuthUser(userAuth.UserName, userAuth.Password), CallBackAuthUser);
 
-                //_closeWindow.Invoke();
-                _viewModelAggregator.ChangeActiveUser(user);
-                _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
+
+                //if (user == null)
+                //{
+                //    MessageBox.Show("Error");
+                //    return;
+                //}
+
+                ////MainViewModel main = new MainViewModel();
+                ////MainView view = new MainView();
+                ////view.DataContext = main;
+                ////view.Show();
+
+                ////_closeWindow.Invoke();
+                //_viewModelAggregator.ChangeActiveUser(user);
+                //_viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
             }
             else
             {
                 Username = string.Empty;
-                if(_passwordControl != null)
+                if (_passwordControl != null)
                     _passwordControl.Password = string.Empty;
                 //Password = string.Empty;
             }
+        }
+
+        private void CallBackAuthUser(IUser user)
+        {
+            if (user == null)
+            {
+                MessageBox.Show("Error");
+            }
+
+
+            if(!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(_passwordControl.Password))
+            {
+                var userAuth = LoginUtilities.GetSavedUser();
+
+                if (userAuth == null || userAuth?.UserName != Username || userAuth?.Password != _passwordControl.Password)
+                {
+                    var res = MessageBox.Show("Save user?", "Save session", MessageBoxButton.YesNo);
+
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        LoginUtilities.SaveUser(new AuthUserUI(userAuth?.UserName, userAuth?.Password));
+                        MessageBox.Show("Saved");
+                    }
+                }
+            }
+
+           
+
+            _viewModelAggregator.ChangeActiveUser(user);
+            _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using UI.Extra;
 using UI.Extra.Commands.Common;
@@ -21,6 +22,7 @@ namespace UI.ViewModels.Order
         private readonly ICarStationServiceClient _carStationService;
 
         private readonly IUser _activeUser;
+        private readonly IDispatch _dispatch;
 
         public OrderUserViewModel(IServices services)
         {
@@ -28,6 +30,7 @@ namespace UI.ViewModels.Order
             _carService = services.CarServiceClient;
             _carStationService = services.CarStationServiceClient;
             _activeUser = services.ActiveUser;
+            _dispatch = services.UIDispatcher;
 
             Orders = new ObservableCollection<OrderDataGridCellViewModel>();
 
@@ -45,23 +48,88 @@ namespace UI.ViewModels.Order
             Orders.Clear();
 
             IEnumerable<IOrder> orders = null;
-            AsyncRunner.RunAsync(async () => await _orderService.GetOrdersByUserId(_activeUser.Id), ref orders);
-
-            if(orders == null || !orders.Any())
-            {
-                return;
-            }
-
             IEnumerable<ICar> cars = null;
-            AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), ref cars);
-
             IEnumerable<ICarStation> carStations = null;
-            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), ref carStations);
 
-            if(cars == null || !cars.Any() && carStations == null || !carStations.Any())
+            AsyncRunner.RunTaskAsync(async () => await _orderService.GetOrdersByUserId(_activeUser.Id), (o) =>
+            {
+                orders = o;
+            })
+            .ContinueAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), (c) =>
+            {
+                cars = c;
+            })
+            .ContinueAsync(async () => await _carStationService.GetCarStations(), (ct) =>
+            {
+                carStations = ct;
+            })
+            .ContinueAsync(async () => await InitAsync(orders, cars, carStations));
+
+            //AsyncRunner.RunAsync(async () => await _orderService.GetOrdersByUserId(_activeUser.Id), CallBackGetOrdersByUserId);
+
+            //if(orders == null || !orders.Any())
+            //{
+            //    return;
+            //}
+
+            //AsyncRunner.RunAsync(async () => await _carService.GetCarsByUserId(_activeUser.Id), CallBackGetCarsByUserId);
+
+            //AsyncRunner.RunAsync(async () => await _carStationService.GetCarStations(), CallBackGetCarStations);
+
+
+            //if (orders == null || !orders.Any())
+            //{
+            //    return;
+            //}
+
+            //if (cars == null || !cars.Any() && carStations == null || !carStations.Any())
+            //{
+            //    return;
+            //}
+
+            //var list = new List<OrderDataGridCellViewModel>();
+
+            //foreach (var order in orders)
+            //{
+            //    var temp = new OrderDataGridCellViewModel()
+            //    {
+            //        Id = order.Id,
+            //        Name = order.Name,
+            //        CreatedAt = order.CreatedAt.ToString()
+            //    };
+
+            //    temp.CarName = cars.FirstOrDefault(c => c.Id == order.IdCar)?.Model ?? string.Empty;
+            //    temp.CarStationName = carStations.FirstOrDefault(c => c.Id == order.IdStation)?.Name ?? string.Empty;
+
+            //    temp.Closed = order.Closed != DateTime.MinValue ? order.Closed.ToString() : string.Empty;
+
+            //    temp.CompletedWork = new Dictionary<string, int>();
+
+            //    foreach (var item in order.CompletedWork)
+            //    {
+            //        temp.CompletedWork.Add(((WorkType)item.Key).ToString(), item.Value);
+            //    }
+
+            //    list.Add(temp);
+            //}
+
+            //list = list.OrderBy(o => o.Closed).ToList();
+
+            //list.ForEach(l => Orders.Add(l));
+        }
+
+        private async Task InitAsync(IEnumerable<IOrder> orders, IEnumerable<ICar> cars, IEnumerable<ICarStation> carStations)
+        {
+
+            if (orders == null || !orders.Any())
             {
                 return;
             }
+
+            //if (cars == null || !cars.Any() && carStations == null || !carStations.Any())
+            //{
+            //    return;
+            //}
 
             var list = new List<OrderDataGridCellViewModel>();
 
@@ -74,8 +142,8 @@ namespace UI.ViewModels.Order
                     CreatedAt = order.CreatedAt.ToString()
                 };
 
-                temp.CarName = cars.FirstOrDefault(c => c.Id == order.IdCar)?.Model ?? string.Empty;
-                temp.CarStationName = carStations.FirstOrDefault(c => c.Id == order.IdStation)?.Name ?? string.Empty;
+                temp.CarName = cars.FirstOrDefault(c => c.Id == order.IdCar)?.Model ?? "NOT FOUND";
+                temp.CarStationName = carStations.FirstOrDefault(c => c.Id == order.IdStation)?.Name ?? "NOT FOUND";
 
                 temp.Closed = order.Closed != DateTime.MinValue ? order.Closed.ToString() : string.Empty;
 
@@ -91,8 +159,13 @@ namespace UI.ViewModels.Order
 
             list = list.OrderBy(o => o.Closed).ToList();
 
-            list.ForEach(l => Orders.Add(l));
+
+            _dispatch.Invoke(() =>
+            {
+                list.ForEach(l => Orders.Add(l));
+            });
         }
+
 
         private void RefreshAction()
         {

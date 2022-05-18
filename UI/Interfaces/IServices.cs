@@ -21,9 +21,12 @@ namespace UI.Interfaces
 
         IViewModelAggregator ViewModelAggregator { get; }
 
+        IDispatch UIDispatcher { get; }
+
         IUser ActiveUser { get; set; }
 
         ICarStation ActiveCarStation { get; set; }
+
 
         //IUnityContainer Resolver { get; }
     }

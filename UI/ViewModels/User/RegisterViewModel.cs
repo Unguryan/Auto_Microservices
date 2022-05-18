@@ -54,20 +54,20 @@ namespace UI.ViewModels.User
         private void RegisterAction()
         {
             IUser user = null;
-            AsyncRunner.RunAsync(async () => await _userService.RegUser(Username, Password, Name, Phone), ref user);
+            AsyncRunner.RunAsync(async () => await _userService.RegUser(Username, Password, Name, Phone), CallBackRegUser);
 
             //var res = _userService.RegUser(Username, Password, Name, Phone);
 
             //res.Wait();
 
-            if (user == null)
-            {
-                MessageBox.Show("Username is already taken");
-                return;
-            }
+            //if (user == null)
+            //{
+            //    MessageBox.Show("Username is already taken");
+            //    return;
+            //}
             
-            _viewModelAggregator.ChangeActiveUser(user);
-            _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
+            //_viewModelAggregator.ChangeActiveUser(user);
+            //_viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
             //MessageBox.Show("Success");
 
             //LoginView view = new LoginView();
@@ -77,6 +77,18 @@ namespace UI.ViewModels.User
             //view.Show();
 
             //_closeWindow.Invoke();
+        }
+
+        private void CallBackRegUser(IUser user)
+        {
+            if (user == null)
+            {
+                MessageBox.Show("Username is already taken");
+                return;
+            }
+
+            _viewModelAggregator.ChangeActiveUser(user);
+            _viewModelAggregator.ChangeActiveVM(typeof(UserViewModel));
         }
 
         private void ExitAction()

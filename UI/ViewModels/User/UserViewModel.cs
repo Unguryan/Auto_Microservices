@@ -20,11 +20,14 @@ namespace UI.ViewModels.User
     {
         private readonly IUser _activeUser;
 
+        private readonly IDispatch _dicpatch;
+
         private readonly ICarStationServiceClient _carStationService;
 
         private readonly IViewModelAggregator _viewModelAggregator;
 
         private readonly IViewModelMapper _viewModelMapper;
+
         private Visibility _switchToCarStationVisibility;
 
         public UserViewModel(IServices services)
@@ -34,6 +37,7 @@ namespace UI.ViewModels.User
             _viewModelAggregator = services.ViewModelAggregator;
             _viewModelMapper = services.ViewModelMapper;
             _activeUser = services.ActiveUser;
+            _dicpatch = services.UIDispatcher;
 
             CarViewModel = _viewModelMapper.GetViewModelByType(typeof(CarViewModel));
             OrderUserViewModel = _viewModelMapper.GetViewModelByType(typeof(OrderUserViewModel));
@@ -70,18 +74,34 @@ namespace UI.ViewModels.User
 
         private void Init()
         {
-            IEnumerable<ICarStation> carStations = null;
-            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStationByOwnerIdRequest(_activeUser.Id), ref carStations);
+            //IEnumerable<ICarStation> carStations = null;
+            AsyncRunner.RunAsync(async () => await _carStationService.GetCarStationByOwnerIdRequest(_activeUser.Id), CallBackGetStations);
 
-            if (carStations != null)
+            //if (carStations != null)
+            //{
+            //    foreach (var carStation in carStations)
+            //    {
+            //        CarStations.Add(carStation);
+            //    }
+            //}
+
+            //SwitchToCarStationVisibility = CarStations.Any() ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void CallBackGetStations(IEnumerable<ICarStation> carStations)
+        {
+            _dicpatch.Invoke(() => 
             {
-                foreach (var carStation in carStations)
+                if (carStations != null)
                 {
-                    CarStations.Add(carStation);
+                    foreach (var carStation in carStations)
+                    {
+                        CarStations.Add(carStation);
+                    }
                 }
-            }
 
-            SwitchToCarStationVisibility = CarStations.Any() ? Visibility.Visible : Visibility.Collapsed;
+                SwitchToCarStationVisibility = CarStations.Any() ? Visibility.Visible : Visibility.Collapsed;
+            });
         }
 
         private void SwitchToCarStationAction()

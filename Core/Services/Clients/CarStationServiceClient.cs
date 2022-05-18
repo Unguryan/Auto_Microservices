@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Services.Clients
@@ -28,6 +29,7 @@ namespace Core.Services.Clients
 
         public async Task<ICarStation> AddCarStation(int idOwner, string name, IDictionary<int, int> types)
         {
+            Thread.Sleep(1000);
             var req = new AddCarStationRequest()
             {
                 IdOwner = idOwner,              
@@ -56,6 +58,7 @@ namespace Core.Services.Clients
 
         public async Task<IOrder> CloseWork(int idOrder)
         {
+            Thread.Sleep(1000);
             var req = new CloseWorkRequest()
             {
                 IdOrder = idOrder
@@ -75,6 +78,7 @@ namespace Core.Services.Clients
 
         public async Task<ICarStation> DeleteCarStation(int id)
         {
+            Thread.Sleep(1000);
             var req = new DeleteCarStationRequest()
             {
                 Id = id
@@ -97,6 +101,7 @@ namespace Core.Services.Clients
 
         public async Task<ICarStation> GetCarStationById(int id)
         {
+            Thread.Sleep(100);
             var req = new GetCarStationByIdRequest()
             {
                 Id = id
@@ -119,6 +124,7 @@ namespace Core.Services.Clients
 
         public async Task<IEnumerable<ICarStation>> GetCarStationByOwnerIdRequest(int id)
         {
+            Thread.Sleep(1000);
             var req = new GetCarStationByOwnerIdRequest()
             {
                 Id = id
@@ -143,11 +149,14 @@ namespace Core.Services.Clients
 
                 list.Add(temp);
             }
+
+            res.Dispose();
             return list;
         }
 
         public async Task<IEnumerable<ICarStation>> GetCarStations()
         {
+            Thread.Sleep(1000);
             //var req = new GetCarStationByIdRequest()
             //{
             //};
@@ -184,11 +193,14 @@ namespace Core.Services.Clients
 
                 list.Add(temp);
             }
+
+            res.Dispose();
             return list;
         }
 
         public async Task<IOrder> StartWork(string name, int idUser, int idCarStation, int idCar, IDictionary<int, int> types)
         {
+            Thread.Sleep(1000);
             var req = new StartWorkRequest()
             {
                 Name = name,

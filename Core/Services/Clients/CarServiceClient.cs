@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Services.Clients
@@ -30,6 +31,7 @@ namespace Core.Services.Clients
         //private readonly IBaseContextWrapper<ICar> _context;
         public async Task<ICar> AddCar(int idUser, string model)
         {
+            Thread.Sleep(1000);
             var req = new AddCarRequest()
             {
                 IdUser = idUser,
@@ -46,6 +48,7 @@ namespace Core.Services.Clients
 
         public async Task<ICar> DeleteCar(int id = 1)
         {
+            Thread.Sleep(1000);
             var req = new DeleteCarRequest()
             {
                 Id = id,
@@ -61,6 +64,7 @@ namespace Core.Services.Clients
 
         public async Task<ICar> GetCarById(int id)
         {
+            Thread.Sleep(100);
             var req = new GetCarByIdRequest()
             {
                 Id = id,
@@ -76,6 +80,7 @@ namespace Core.Services.Clients
 
         public async Task<IEnumerable<ICar>> GetCarsByUserId(int idUser)
         {
+            Thread.Sleep(1000);
             var req = new GetCarByUserIdRequest()
             {
                 IdUser = idUser,
@@ -96,6 +101,7 @@ namespace Core.Services.Clients
                 list.Add(temp);
             }
 
+            res.Dispose();
             return list;
         }
     }
