@@ -87,7 +87,7 @@ namespace Core.Services.Clients
 
             var list = new List<IUser>();
 
-            while (res.ResponseStream.MoveNext().Result)
+            while (await res.ResponseStream.MoveNext())
             {
                 var current = res.ResponseStream.Current;
                 var temp = new User_DAL()
